@@ -45,22 +45,28 @@ plt.imshow([color])
 # Convert to JCh
 color_jch = cspace_convert([color], "sRGB255", "JCh")
 
-# Normalize color
+# Normalize lightness
 j_mean = (np.mean(color_jch[:,8:22,0]) + np.max(color_jch[:,8:22,0])) / 2
+color_jch[:,8:22,0] = (color_jch[:,8:22,0] + j_mean) / 2
+
+# Normalize chroma
 c_min = np.min(color_jch[:,8:20,1])
+color_jch[:,8:20,1] = c_min
 
-color_jch[:,8:21,0] = (color_jch[:,8:21,0] + j_mean) / 2
-color_jch[:,8:20,1] = (color_jch[:,8:20,1] + c_min) / 2
-
-# Little alt
+# Little alt hue
 color_jch[:,8:20,2] = color_jch[:,8:20,2] - 10
 
 color_jch[:,0,0] = color_jch[:,20,0]    # FG
-color_jch[:,5,:] = color_jch[:,11,:]    # cursor
+color_jch[:,1,0] = color_jch[:,21,0]    # FG Bold
+color_jch[:,5,:] = color_jch[:,11,:]    # Cursor
 
 # Convert back to RGB
 color_rgb = cspace_convert(color_jch, "JCh", "sRGB255")
 color_rgb_clip = np.clip(color_rgb, 0, 255).round().astype('uint8')
+
+color_rgb_clip[:,2,:] = 24  # BG
+color_rgb_clip[:,4,:] = 24  # Cursor text
+color_rgb_clip[:,6,:] = 24  # Black
 
 plt.figure()
 plt.imshow(color_rgb_clip)
