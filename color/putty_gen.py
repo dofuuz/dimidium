@@ -64,7 +64,6 @@ color_rgb_clip = np.clip(color_rgb, 0, 255).round().astype('uint8')
 
 color_rgb_clip[2,:] = 24  # BG
 color_rgb_clip[4,:] = 24  # Cursor text
-color_rgb_clip[6,:] = 24  # Black
 
 plt.figure()
 plt.imshow([color_rgb_clip])
