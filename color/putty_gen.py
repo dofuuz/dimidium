@@ -5,11 +5,13 @@ Created on Mon Mar 14 13:31:12 2022
 @author: dof
 """
 
+from collections import OrderedDict
+
 from colorspacious import cspace_convert
 import matplotlib.pylab as plt
 import numpy as np
 
-# Default PuTTY color
+# TTY colors(mostly from PuTTY)
 Colour = [[]] * 22
 Colour[0] = "187,187,187"   # FG
 Colour[1] = "255,255,255"   # FG Bold
@@ -44,7 +46,7 @@ for c in Colour:
 color_jch = cspace_convert(color, "sRGB255", "JCh")
 
 # Normalize lightness
-j_mean = (np.mean(color_jch[8:20,0]) + np.max(color_jch[8:20,0])) / 2
+j_mean = (np.mean(color_jch[8:22,0]) + np.max(color_jch[8:22,0])) / 2
 color_jch[8:20,0] = (color_jch[8:20,0] + j_mean) / 2
 
 j_lo_mean = np.mean(color_jch[8:20:2,0])
@@ -61,14 +63,8 @@ c_min = np.min(color_jch[8:20,1])
 c_mean = np.mean(color_jch[8:20,1])
 color_jch[8:20,1] = (color_jch[8:20,1] + c_min) / 2 - (c_mean - c_min) / 2
 
-# Set hue
-color_jch[8:10,2] = 0
-color_jch[10:12,2] = 120
-color_jch[12:14,2] = 60
-color_jch[14:16,2] = 240
-color_jch[16:18,2] = 300
-color_jch[18:20,2] = 180
-color_jch[8:20,2] += 15     # avg delta = 26
+# Little alt hue
+color_jch[8:20,2] = color_jch[8:20,2] - 10
 
 color_jch[0,:] = color_jch[20,:]    # FG
 color_jch[1,:] = color_jch[21,:]    # FG Bold
@@ -76,19 +72,54 @@ color_jch[5,:] = color_jch[11,:]    # Cursor
 
 # Convert back to RGB
 color_rgb = cspace_convert(color_jch, "JCh", "sRGB255")
-color_rgb_clip = np.clip(color_rgb, 0, 255).round().astype('uint8')
+rgbs = color_rgb.round().clip(0, 255).astype('uint8')
 
-color_rgb_clip[2,:] = 24  # BG
-color_rgb_clip[4,:] = 24  # Cursor text
+rgbs[2,:] = 24  # BG
+rgbs[4,:] = 24  # Cursor text
 
 plt.figure()
-plt.imshow([color_rgb_clip])
+plt.imshow([rgbs])
 
-for idx, rgb in enumerate(color_rgb_clip):
-    print('"Colour{}"="'.format(idx), end='')
-    print(','.join(np.char.mod('%d', rgb)), end='')
-    print('"')
+# Write putty.reg
+REG_HEADER = '''Windows Registry Editor Version 5.00
 
+[HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\Default%20Settings]
+'''
+with open('putty.reg', 'wt') as f:
+    f.write(REG_HEADER)
+    for idx, rgb in enumerate(rgbs):
+        print('"Colour{}"="'.format(idx), end='', file=f)
+        print(','.join(np.char.mod('%d', rgb)), end='', file=f)
+        print('"', file=f)
+
+# Write mintty
+mintty = OrderedDict()
+mintty['ForegroundColour'] = rgbs[0]
+mintty['BackgroundColour'] = rgbs[2]
+mintty['CursorColour'] = rgbs[5]
+mintty['Black'] = rgbs[6]
+mintty['BoldBlack'] = rgbs[7]
+mintty['Red'] = rgbs[8]
+mintty['BoldRed'] = rgbs[9]
+mintty['Green'] = rgbs[10]
+mintty['BoldGreen'] = rgbs[11]
+mintty['Yellow'] = rgbs[12]
+mintty['BoldYellow'] = rgbs[13]
+mintty['Blue'] = rgbs[14]
+mintty['BoldBlue'] = rgbs[15]
+mintty['Magenta'] = rgbs[16]
+mintty['BoldMagenta'] = rgbs[17]
+mintty['Cyan'] = rgbs[18]
+mintty['BoldCyan'] = rgbs[19]
+mintty['White'] = rgbs[20]
+mintty['BoldWhite'] = rgbs[21]
+
+with open('mintty-dof', 'wt') as f:
+    for key, rgb in mintty.items():
+        print('{} = '.format(key), end='', file=f)
+        print(','.join(np.char.mod('%d', rgb)), file=f)
+
+# Simulating colorblindness
 # cvd_space = {"name": "sRGB1+CVD",
 #              "cvd_type": "deuteranomaly",
 #              "severity": 100}
