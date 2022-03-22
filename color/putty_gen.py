@@ -49,12 +49,6 @@ color_jch = cspace_convert(color, "sRGB255", "JCh")
 j_mean = (np.mean(color_jch[8:22,0]) + np.max(color_jch[8:22,0])) / 2
 color_jch[8:20,0] = (color_jch[8:20,0] + j_mean) / 2
 
-j_lo_mean = np.mean(color_jch[8:20:2,0])
-color_jch[8:20:2,0] = (color_jch[8:20:2,0] + j_lo_mean) / 2
-
-j_hi_mean = np.mean(color_jch[9:22:2,0])
-color_jch[9:20:2,0] = (color_jch[9:20:2,0] + j_hi_mean) / 2
-
 j_w_mean = np.mean(color_jch[20:22,0])
 color_jch[20:22,0] = (color_jch[20:22,0] + j_w_mean) / 2
 
@@ -63,8 +57,14 @@ c_min = np.min(color_jch[8:20,1])
 c_mean = np.mean(color_jch[8:20,1])
 color_jch[8:20,1] = (color_jch[8:20,1] + c_min) / 2 - (c_mean - c_min) / 2
 
-# Little alt hue
-color_jch[8:20,2] = color_jch[8:20,2] - 10
+# Set hue
+color_jch[8:10,2] = 0
+color_jch[10:12,2] = 120
+color_jch[12:14,2] = 60
+color_jch[14:16,2] = 240
+color_jch[16:18,2] = 300
+color_jch[18:20,2] = 180
+color_jch[8:20,2] += 15     # avg delta = 26
 
 color_jch[0,:] = color_jch[20,:]    # FG
 color_jch[1,:] = color_jch[21,:]    # FG Bold
