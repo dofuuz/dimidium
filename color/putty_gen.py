@@ -46,7 +46,7 @@ for c in Colour:
 color_jch = cspace_convert(color, "sRGB255", "JCh")
 
 # Normalize lightness
-j_mean = (np.mean(color_jch[8:22,0]) + np.max(color_jch[8:22,0])) / 2
+j_mean = (np.mean(color_jch[8:20,0]) + np.max(color_jch[8:20,0])) / 2
 color_jch[8:20,0] = (color_jch[8:20,0] + j_mean) / 2
 
 j_w_mean = np.mean(color_jch[20:22,0])
@@ -66,16 +66,18 @@ color_jch[16:18,2] = 300
 color_jch[18:20,2] = 180
 color_jch[8:20,2] += 15     # avg delta = 26
 
-color_jch[0,:] = color_jch[20,:]    # FG
-color_jch[1,:] = color_jch[21,:]    # FG Bold
-color_jch[5,:] = color_jch[11,:]    # Cursor
-
 # Convert back to RGB
 color_rgb = cspace_convert(color_jch, "JCh", "sRGB255")
+color_rgb[20,:] = np.mean(color_rgb[20,:])
+color_rgb[21,:] = np.mean(color_rgb[21,:])
 rgbs = color_rgb.round().clip(0, 255).astype('uint8')
 
-rgbs[2,:] = 24  # BG
-rgbs[4,:] = 24  # Cursor text
+# Set FG, BG
+rgbs[0,:] = rgbs[20,:]  # FG
+rgbs[1,:] = rgbs[21,:]  # FG Bold
+rgbs[2,:] = 24          # BG
+rgbs[4,:] = 24          # Cursor text
+rgbs[5,:] = rgbs[11,:]  # Cursor
 
 plt.figure()
 plt.imshow([rgbs])
