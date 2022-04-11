@@ -83,6 +83,19 @@ rgbs[5,:] = rgbs[11,:]  # Cursor
 plt.figure()
 plt.imshow([rgbs])
 
+
+# # Simulating colorblindness
+# cvd_space = {"name": "sRGB1+CVD",
+#               "cvd_type": "deuteranomaly",
+#               "severity": 100}
+# deuteranomaly_sRGB = cspace_convert(rgbs/255, cvd_space, "sRGB255")
+
+# plt.figure()
+# plt.imshow([np.clip(deuteranomaly_sRGB, 0, 255).round().astype('uint8')])
+
+# rgbs = np.clip(deuteranomaly_sRGB, 0, 255).round().astype('uint8')
+
+
 # Write putty.reg
 REG_HEADER = '''Windows Registry Editor Version 5.00
 
@@ -121,15 +134,6 @@ with open('mintty-dof', 'wt') as f:
     for key, rgb in mintty.items():
         print('{} = '.format(key), end='', file=f)
         print(','.join(np.char.mod('%d', rgb)), file=f)
-
-# Simulating colorblindness
-# cvd_space = {"name": "sRGB1+CVD",
-#              "cvd_type": "deuteranomaly",
-#              "severity": 100}
-# deuteranomaly_sRGB = cspace_convert(color_rgb_clip/255, cvd_space, "sRGB255")
-
-# plt.figure()
-# plt.imshow([np.clip(deuteranomaly_sRGB, 0, 255).round().astype('uint8')])
 
 
 # Generate preveiw
