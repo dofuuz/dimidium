@@ -55,7 +55,8 @@ color_jch[20:22,0] = (color_jch[20:22,0] + j_w_mean) / 2
 # Normalize chroma
 c_min = np.min(color_jch[8:20,1])
 c_mean = np.mean(color_jch[8:20,1])
-color_jch[8:20,1] = (color_jch[8:20,1] + c_min) / 2 - (c_mean - c_min) / 2
+color_jch[8:20:2,1] = (color_jch[8:20:2,1] + c_min) / 2 - (c_mean - c_min) / 2
+color_jch[9:20:2,1] = (color_jch[9:20:2,1] + c_min) / 2
 
 # Set hue
 color_jch[8:10,2] = 0
@@ -129,3 +130,51 @@ with open('mintty-dof', 'wt') as f:
 
 # plt.figure()
 # plt.imshow([np.clip(deuteranomaly_sRGB, 0, 255).round().astype('uint8')])
+
+
+# Generate preveiw
+h = OrderedDict()
+for key, rgb in mintty.items():
+    h[key] = ''.join(np.char.mod('%02x', rgb))
+
+d = OrderedDict()
+d['"color:white; background-color:black"'] = '"color:#{}; background-color:#{}"'.format(h['ForegroundColour'], h['BackgroundColour'])
+d['background-color:black;'] = 'background-color:#{};'.format(h['Black'])
+d['background-color:red;'] = 'background-color:#{};'.format(h['Red'])
+d['background-color:lime;'] = 'background-color:#{};'.format(h['Green'])
+d['background-color:yellow;'] = 'background-color:#{};'.format(h['Yellow'])
+d['background-color:#3333FF;'] = 'background-color:#{};'.format(h['Blue'])
+d['background-color:fuchsia;'] = 'background-color:#{};'.format(h['Magenta'])
+d['background-color:aqua;'] = 'background-color:#{};'.format(h['Cyan'])
+d['background-color:white;'] = 'background-color:#{};'.format(h['White'])
+d['font-weight:bold;color:dimgray;'] = 'font-weight:bold;color:#{};'.format(h['BoldBlack'])
+d['font-weight:bold;color:red;'] = 'font-weight:bold;color:#{};'.format(h['BoldRed'])
+d['font-weight:bold;color:lime;'] = 'font-weight:bold;color:#{};'.format(h['BoldGreen'])
+d['font-weight:bold;color:yellow;'] = 'font-weight:bold;color:#{};'.format(h['BoldYellow'])
+d['font-weight:bold;color:#3333FF;'] = 'font-weight:bold;color:#{};'.format(h['BoldBlue'])
+d['font-weight:bold;color:fuchsia;'] = 'font-weight:bold;color:#{};'.format(h['BoldMagenta'])
+d['font-weight:bold;color:aqua;'] = 'font-weight:bold;color:#{};'.format(h['BoldCyan'])
+d['font-weight:bold;color:white;'] = 'font-weight:bold;color:#{};'.format(h['BoldWhite'])
+d['color:dimgray;'] = 'color:#{};'.format(h['Black'])
+d['color:red;'] = 'color:#{};'.format(h['Red'])
+d['color:lime;'] = 'color:#{};'.format(h['Green'])
+d['color:yellow;'] = 'color:#{};'.format(h['Yellow'])
+d['color:#3333FF;'] = 'color:#{};'.format(h['Blue'])
+d['color:fuchsia;'] = 'color:#{};'.format(h['Magenta'])
+d['color:aqua;'] = 'color:#{};'.format(h['Cyan'])
+d['color:white;'] = 'color:#{};'.format(h['White'])
+d['"font-weight:bold;"'] = '"font-weight:bold;color:#{};"'.format(h['BoldWhite'])
+d['"font-weight:bold;background-color:'] = '"font-weight:bold;color:#{};background-color:'.format(h['BoldWhite'])
+
+with open(r'.tty-template.html') as f:
+    html = f.read()
+
+for k, v in d.items():
+    html = html.replace(k, v)
+
+with open(r'tty-preview.html', 'wt') as f:
+    f.write(html)
+
+# html = html.replace('font-weight:bold;', '')
+# with open(r'tty-preview-nobold.html', 'wt') as f:
+#     f.write(html)
