@@ -6,39 +6,54 @@ Created on Mon Mar 14 13:31:12 2022
 """
 
 from collections import OrderedDict
+import csv
 
-from colorspacious import cspace_convert
+from colorio import cs
 import matplotlib.pylab as plt
 import numpy as np
 
-# TTY colors(mostly from PuTTY)
-Colour = [[]] * 22
-Colour[0] = "187,187,187"   # FG
-Colour[1] = "255,255,255"   # FG Bold
-Colour[2] = "0,0,0"         # BG
-Colour[3] = "102,102,102"   # BG Bold'
-Colour[4] = "0,0,0"         # Cursor text
-Colour[5] = "0,255,0"       # Cursor
-Colour[6] = "0,0,0"         # Black
-Colour[7] = "102,102,102"   # Black Bold'
-Colour[8] = "187,0,0"       # Red
-Colour[9] = "255,85,85"     # Red Bold
-Colour[10] = "0,187,0"      # Green
-Colour[11] = "0,255,0"      # Green Bold'
-Colour[12] = "187,187,0"    # Yellow
-Colour[13] = "229,229,0"    # Yellow Bold'
-Colour[14] = "0,0,187"      # Blue
-Colour[15] = "85,85,255"    # Blue Bold
-Colour[16] = "187,0,187"    # Magenta
-Colour[17] = "255,85,255"   # Magenta bold
-Colour[18] = "0,187,187"    # Cyan
-Colour[19] = "0,229,229"    # Cyan Bold'
-Colour[20] = "187,187,187"  # White
-Colour[21] = "255,255,255"  # White Bold
 
-color = []
-for c in Colour:
-    color.append([int(x) for x in c.split(',')])
+REF_COLOR = 9   # xterm color scheme
+
+
+def cspace_convert(colors, start, dest):
+    colors = np.asarray(colors).T
+
+    if start == 'JCh':
+        L, C, h = colors
+        h_ = np.radians(h)
+        colors = np.array([L, C * np.cos(h_), C * np.sin(h_)])
+        start = 'Oklab'
+
+    cc = cs.ColorCoordinates(colors, start)
+    if dest == 'JCh':
+        cc.convert('Oklab')
+    else:
+        cc.convert(dest, mode='clip')
+    ret = cc.data
+
+    if dest == 'JCh':
+        L, a, b = ret
+        C = np.hypot(a, b)
+        h = np.degrees(np.arctan2(b, a)) % 360
+        ret = np.array([L, C, h])
+
+    return ret.T
+
+
+with open('tty_color.tsv', newline='') as f:
+    f.readline()
+    f.readline()
+    reader = csv.reader(f, delimiter='\t')
+    colors = list(reader)
+
+
+# TTY colors
+Colour = colors[REF_COLOR]
+
+color = [(24, 24, 24)]  # Background
+for c in Colour[1:]:
+    color.append([int(x) for x in c.split(', ')])
 
 # plt.imshow([color])
 
@@ -46,89 +61,75 @@ for c in Colour:
 color_jch = cspace_convert(color, "sRGB255", "JCh")
 
 # Normalize lightness
-j_mean = (np.mean(color_jch[8:20,0]) + np.max(color_jch[8:20,0])) / 2
-color_jch[8:20,0] = (color_jch[8:20,0] + j_mean) / 2
+j_mean = np.mean(color_jch[2:17,0])
+color_jch[2:9,0] = (color_jch[2:9,0] + j_mean) / 2
+color_jch[10:16,0] = (color_jch[10:16,0] + j_mean) / 2
 
-j_w_mean = np.mean(color_jch[20:22,0])
-color_jch[20:22,0] = (color_jch[20:22,0] + j_w_mean) / 2
+j_w_mean = np.mean([color_jch[8,0], color_jch[16,0]])
+color_jch[8,0] = (color_jch[8,0] + j_w_mean) / 2
+color_jch[16,0] = (color_jch[16,0] + j_w_mean) / 2
 
 # Normalize chroma
-c_min = np.min(color_jch[8:20,1])
-c_mean = np.mean(color_jch[8:20,1])
-color_jch[8:20:2,1] = (color_jch[8:20:2,1] + c_min) / 2 - (c_mean - c_min) / 2
-color_jch[9:20:2,1] = (color_jch[9:20:2,1] + c_min) / 2
+c_min = np.min([color_jch[2:8,1], color_jch[10:16,1]])
+color_jch[2:8,1] = (color_jch[2:8,1] + c_min) / 2.5
 
-# Set hue
-color_jch[8:10,2] = 0
-color_jch[10:12,2] = 120
-color_jch[12:14,2] = 60
-color_jch[14:16,2] = 240
-color_jch[16:18,2] = 300
-color_jch[18:20,2] = 180
-color_jch[8:20,2] += 15     # avg delta = 26
+c_min = np.min(color_jch[10:16,1])
+color_jch[10:16,1] = (color_jch[10:16,1] + c_min) / 2
+
+# Set hue(avg delta to original is about 26)
+color_jch[2:8,2] = (0, 120, 60, 240, 300, 180)
+color_jch[2:8,2] += 15
+
+color_jch[10:16,2] = (0, 120, 60, 240, 300, 180)
+color_jch[10:16,2] += 25
 
 # Convert back to RGB
 color_rgb = cspace_convert(color_jch, "JCh", "sRGB255")
-color_rgb[20,:] = np.mean(color_rgb[20,:])
-color_rgb[21,:] = np.mean(color_rgb[21,:])
+color_rgb[8,:] = np.mean(color_rgb[8,:])
+color_rgb[16,:] = np.mean(color_rgb[16,:])
 rgbs = color_rgb.round().clip(0, 255).astype('uint8')
-
-# Set FG, BG
-rgbs[0,:] = rgbs[20,:]  # FG
-rgbs[1,:] = rgbs[21,:]  # FG Bold
-rgbs[2,:] = 24          # BG
-rgbs[4,:] = 24          # Cursor text
-rgbs[5,:] = rgbs[11,:]  # Cursor
 
 plt.figure()
 plt.imshow([rgbs])
 
 
-# # Simulating colorblindness
-# cvd_space = {"name": "sRGB1+CVD",
-#               "cvd_type": "deuteranomaly",
-#               "severity": 100}
-# deuteranomaly_sRGB = cspace_convert(rgbs/255, cvd_space, "sRGB255")
-
-# plt.figure()
-# plt.imshow([np.clip(deuteranomaly_sRGB, 0, 255).round().astype('uint8')])
-
-# rgbs = np.clip(deuteranomaly_sRGB, 0, 255).round().astype('uint8')
-
-
 # Write putty.reg
+putty = np.zeros([22, 3])
+for pdx, rdx in enumerate([8, 16, 0, 9, 0, 11, 1, 9, 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15, 8, 16]):
+    putty[pdx] = rgbs[rdx]
+
 REG_HEADER = '''Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\Default%20Settings]
 '''
 with open('putty.reg', 'wt') as f:
     f.write(REG_HEADER)
-    for idx, rgb in enumerate(rgbs):
+    for idx, rgb in enumerate(putty):
         print('"Colour{}"="'.format(idx), end='', file=f)
         print(','.join(np.char.mod('%d', rgb)), end='', file=f)
         print('"', file=f)
 
 # Write mintty
 mintty = OrderedDict()
-mintty['ForegroundColour'] = rgbs[0]
-mintty['BackgroundColour'] = rgbs[2]
-mintty['CursorColour'] = rgbs[5]
-mintty['Black'] = rgbs[6]
-mintty['BoldBlack'] = rgbs[7]
-mintty['Red'] = rgbs[8]
-mintty['BoldRed'] = rgbs[9]
-mintty['Green'] = rgbs[10]
+mintty['ForegroundColour'] = rgbs[8]
+mintty['BackgroundColour'] = rgbs[0]
+mintty['CursorColour'] = rgbs[11]
+mintty['Black'] = rgbs[1]
+mintty['BoldBlack'] = rgbs[9]
+mintty['Red'] = rgbs[2]
+mintty['BoldRed'] = rgbs[10]
+mintty['Green'] = rgbs[3]
 mintty['BoldGreen'] = rgbs[11]
-mintty['Yellow'] = rgbs[12]
-mintty['BoldYellow'] = rgbs[13]
-mintty['Blue'] = rgbs[14]
-mintty['BoldBlue'] = rgbs[15]
-mintty['Magenta'] = rgbs[16]
-mintty['BoldMagenta'] = rgbs[17]
-mintty['Cyan'] = rgbs[18]
-mintty['BoldCyan'] = rgbs[19]
-mintty['White'] = rgbs[20]
-mintty['BoldWhite'] = rgbs[21]
+mintty['Yellow'] = rgbs[4]
+mintty['BoldYellow'] = rgbs[12]
+mintty['Blue'] = rgbs[5]
+mintty['BoldBlue'] = rgbs[13]
+mintty['Magenta'] = rgbs[6]
+mintty['BoldMagenta'] = rgbs[14]
+mintty['Cyan'] = rgbs[7]
+mintty['BoldCyan'] = rgbs[15]
+mintty['White'] = rgbs[8]
+mintty['BoldWhite'] = rgbs[16]
 
 with open('mintty-dof', 'wt') as f:
     for key, rgb in mintty.items():
