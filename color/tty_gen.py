@@ -71,7 +71,7 @@ color_jch[16,0] = (color_jch[16,0] + j_w_mean) / 2
 
 # Normalize chroma
 c_min = np.min([color_jch[2:8,1], color_jch[10:16,1]])
-color_jch[2:8,1] = (color_jch[2:8,1] + c_min) / 2.5
+color_jch[2:8,1] = (color_jch[2:8,1] + c_min + c_min) / 3
 
 c_min = np.min(color_jch[10:16,1])
 color_jch[10:16,1] = (color_jch[10:16,1] + c_min) / 2
