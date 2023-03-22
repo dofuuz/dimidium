@@ -8,37 +8,15 @@ Created on Mon Mar 14 13:31:12 2022
 from collections import OrderedDict
 import csv
 
-from colorio import cs
 import matplotlib.pylab as plt
 import numpy as np
+
+from color_oklab import rgb_to_oklch, oklch_to_rgb
 
 
 REF_COLOR = 9   # xterm color scheme
 
-
-def cspace_convert(colors, start, dest):
-    colors = np.asarray(colors).T
-
-    if start == 'JCh':
-        L, C, h = colors
-        h_ = np.radians(h)
-        colors = np.array([L, C * np.cos(h_), C * np.sin(h_)])
-        start = 'Oklab'
-
-    cc = cs.ColorCoordinates(colors, start)
-    if dest == 'JCh':
-        cc.convert('Oklab')
-    else:
-        cc.convert(dest, mode='clip')
-    ret = cc.data
-
-    if dest == 'JCh':
-        L, a, b = ret
-        C = np.hypot(a, b)
-        h = np.degrees(np.arctan2(b, a)) % 360
-        ret = np.array([L, C, h])
-
-    return ret.T
+np.set_printoptions(precision=3, suppress=True)
 
 
 with open('tty_color.tsv', newline='') as f:
@@ -54,16 +32,20 @@ Colour = colors[REF_COLOR]
 color = [(24, 24, 24)]  # Background
 for c in Colour[1:]:
     color.append([int(x) for x in c.split(', ')])
+color = np.asarray(color, dtype=np.float32)
 
-# plt.imshow([color])
+# plt.imshow([color/255])
 
 # Convert to JCh
-color_jch = cspace_convert(color, "sRGB255", "JCh")
+color_jch = rgb_to_oklch(color/255)
 
 # Normalize lightness
-j_mean = np.mean(color_jch[2:17,0])
+j_mean = (np.mean(color_jch[10:16,0]) + color_jch[8,0]) / 2
 color_jch[2:9,0] = (color_jch[2:9,0] + j_mean) / 2
 color_jch[10:16,0] = (color_jch[10:16,0] + j_mean) / 2
+
+color_jch[5,0] = (color_jch[2,0] + color_jch[5,0]) / 2  # adjust blue
+color_jch[13,0] = (color_jch[10,0] + color_jch[13,0]) / 2  # adjust blue
 
 j_w_mean = np.mean([color_jch[8,0], color_jch[16,0]])
 color_jch[8,0] = (color_jch[8,0] + j_w_mean) / 2
@@ -71,10 +53,12 @@ color_jch[16,0] = (color_jch[16,0] + j_w_mean) / 2
 
 # Normalize chroma
 c_min = np.min([color_jch[2:8,1], color_jch[10:16,1]])
-color_jch[2:8,1] = (color_jch[2:8,1] + c_min + c_min) / 3
+color_jch[2:8,1] = (color_jch[2:8,1] + c_min) / 3
 
 c_min = np.min(color_jch[10:16,1])
-color_jch[10:16,1] = (color_jch[10:16,1] + c_min) / 2
+color_jch[10:16,1] = (color_jch[10:16,1] + c_min) / 3
+
+color_jch[13,1] = max(color_jch[5,1], color_jch[13,1])  # adjust blue
 
 # Set hue(avg delta to original is about 26)
 color_jch[2:8,2] = (0, 120, 60, 240, 300, 180)
@@ -84,7 +68,7 @@ color_jch[10:16,2] = (0, 120, 60, 240, 300, 180)
 color_jch[10:16,2] += 25
 
 # Convert back to RGB
-color_rgb = cspace_convert(color_jch, "JCh", "sRGB255")
+color_rgb = oklch_to_rgb(color_jch) * 255
 color_rgb[8,:] = np.mean(color_rgb[8,:])
 color_rgb[16,:] = np.mean(color_rgb[16,:])
 rgbs = color_rgb.round().clip(0, 255).astype('uint8')
