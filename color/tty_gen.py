@@ -11,7 +11,7 @@ import csv
 import matplotlib.pylab as plt
 import numpy as np
 
-from color_oklab import rgb_to_oklch, oklch_to_rgb
+from color_oklab import rgb_to_oklch, oklch_to_rgb, gamut_clip_adaptive_L0_0_5
 
 
 REF_COLOR = 9   # xterm color scheme
@@ -40,12 +40,10 @@ color = np.asarray(color, dtype=np.float32)
 color_jch = rgb_to_oklch(color/255)
 
 # Normalize lightness
+a = 0.4
 j_mean = (np.mean(color_jch[10:16,0]) + color_jch[8,0]) / 2
-color_jch[2:9,0] = (color_jch[2:9,0] + j_mean) / 2
-color_jch[10:16,0] = (color_jch[10:16,0] + j_mean) / 2
-
-color_jch[5,0] = (color_jch[2,0] + color_jch[5,0]) / 2  # adjust blue
-color_jch[13,0] = (color_jch[10,0] + color_jch[13,0]) / 2  # adjust blue
+color_jch[2:9,0] = a * color_jch[2:9,0] + (1-a) * j_mean
+color_jch[10:16,0] = a * color_jch[10:16,0] + (1-a) * j_mean
 
 j_w_mean = np.mean([color_jch[8,0], color_jch[16,0]])
 color_jch[8,0] = (color_jch[8,0] + j_w_mean) / 2
@@ -68,10 +66,11 @@ color_jch[10:16,2] = (0, 120, 60, 240, 300, 180)
 color_jch[10:16,2] += 25
 
 # Convert back to RGB
-color_rgb = oklch_to_rgb(color_jch) * 255
+color_rgb = oklch_to_rgb(color_jch)
 color_rgb[8,:] = np.mean(color_rgb[8,:])
 color_rgb[16,:] = np.mean(color_rgb[16,:])
-rgbs = color_rgb.round().clip(0, 255).astype('uint8')
+color_rgb = gamut_clip_adaptive_L0_0_5(color_rgb)
+rgbs = (color_rgb*255).round().clip(0, 255).astype('uint8')
 
 plt.figure()
 plt.imshow([rgbs])
