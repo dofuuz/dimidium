@@ -40,10 +40,9 @@ color = np.asarray(color, dtype=np.float32)
 color_jch = rgb_to_oklch(color/255)
 
 # Normalize lightness
-a = 0.4
 j_mean = (np.mean(color_jch[10:16,0]) + color_jch[8,0]) / 2
-color_jch[2:9,0] = a * color_jch[2:9,0] + (1-a) * j_mean
-color_jch[10:16,0] = a * color_jch[10:16,0] + (1-a) * j_mean
+color_jch[2:9,0] = np.cbrt((color_jch[2:9,0]**3 + j_mean**3) / 2)
+color_jch[10:16,0] = np.cbrt((color_jch[10:16,0]**3 + j_mean**3) / 2)
 
 j_w_mean = np.mean([color_jch[8,0], color_jch[16,0]])
 color_jch[8,0] = (color_jch[8,0] + j_w_mean) / 2
@@ -51,7 +50,7 @@ color_jch[16,0] = (color_jch[16,0] + j_w_mean) / 2
 
 # Normalize chroma
 c_min = np.min([color_jch[2:8,1], color_jch[10:16,1]])
-color_jch[2:8,1] = (color_jch[2:8,1] + c_min) / 3
+color_jch[2:8,1] = (color_jch[2:8,1] + c_min) / 3.3
 
 c_min = np.min(color_jch[10:16,1])
 color_jch[10:16,1] = (color_jch[10:16,1] + c_min) / 3
@@ -63,7 +62,7 @@ color_jch[2:8,2] = (0, 120, 60, 240, 300, 180)
 color_jch[2:8,2] += 15
 
 color_jch[10:16,2] = (0, 120, 60, 240, 300, 180)
-color_jch[10:16,2] += 25
+color_jch[10:16,2] += 30
 
 # Convert back to RGB
 color_rgb = oklch_to_rgb(color_jch)
@@ -71,6 +70,7 @@ color_rgb[8,:] = np.mean(color_rgb[8,:])
 color_rgb[16,:] = np.mean(color_rgb[16,:])
 color_rgb = gamut_clip_adaptive_L0_0_5(color_rgb)
 rgbs = (color_rgb*255).round().clip(0, 255).astype('uint8')
+rgbs[9,:] = 85
 
 plt.figure()
 plt.imshow([rgbs])
