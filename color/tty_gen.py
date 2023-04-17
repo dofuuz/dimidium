@@ -40,6 +40,8 @@ color = np.asarray(color, dtype=np.float32)
 color_jch = rgb_to_oklch(color/255)
 
 # Normalize lightness
+color_jch[5,0] = max(color_jch[2,0], color_jch[5,0])  # adjust blue
+
 j_mean = (np.mean(color_jch[10:16,0]) + color_jch[8,0]) / 2
 color_jch[2:9,0] = np.cbrt((color_jch[2:9,0]**3 + j_mean**3) / 2)
 color_jch[10:16,0] = np.cbrt((color_jch[10:16,0]**3 + j_mean**3) / 2)
@@ -49,13 +51,13 @@ color_jch[8,0] = (color_jch[8,0] + j_w_mean) / 2
 color_jch[16,0] = (color_jch[16,0] + j_w_mean) / 2
 
 # Normalize chroma
+color_jch[13,1] = max(color_jch[5,1], color_jch[13,1])  # adjust bold blue
+
 c_min = np.min([color_jch[2:8,1], color_jch[10:16,1]])
-color_jch[2:8,1] = (color_jch[2:8,1] + c_min) / 3.3
+color_jch[2:8,1] = (color_jch[2:8,1] + c_min) / 3.5
 
 c_min = np.min(color_jch[10:16,1])
 color_jch[10:16,1] = (color_jch[10:16,1] + c_min) / 3
-
-color_jch[13,1] = max(color_jch[5,1], color_jch[13,1])  # adjust blue
 
 # Set hue(avg delta to original is about 26)
 color_jch[2:8,2] = (0, 120, 60, 240, 300, 180)
