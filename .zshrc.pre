@@ -1,0 +1,1 @@
+ls_options+=( --time-style=iso )
