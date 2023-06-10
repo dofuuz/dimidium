@@ -269,8 +269,8 @@ def gamut_clip_adaptive_L0_0_5(rgb, alpha=0.05):
         rgb = np.asarray(rgb, dtype=np.float32)
 
     r = rgb[..., 0]
-    g = rgb[..., 0]
-    b = rgb[..., 0]
+    g = rgb[..., 1]
+    b = rgb[..., 2]
     not_clip = np.all([r < 1, g < 1, b < 1, r >= 0, g >= 0, b >= 0], axis=0)
     not_clip = np.stack([not_clip, not_clip, not_clip], axis=-1)
 
