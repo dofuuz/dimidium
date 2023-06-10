@@ -16,4 +16,4 @@ chsh -s $(which zsh)
 
 [Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dotfiles/blob/main/color/tty-preview.html)
 
-[PuTTY .reg](https://raw.githubusercontent.com/dofuuz/dotfiles/main/color/putty.reg) | [Mintty](https://raw.githubusercontent.com/dofuuz/dotfiles/main/color/mintty-dof)
+[PuTTY](https://raw.githubusercontent.com/dofuuz/dotfiles/main/color/putty-dof.reg) | [Mintty](https://raw.githubusercontent.com/dofuuz/dotfiles/main/color/mintty-dof) | [Windows Terminal](https://raw.githubusercontent.com/dofuuz/dotfiles/main/color/winterm-dof.json)

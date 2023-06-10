@@ -7,6 +7,7 @@ Created on Mon Mar 14 13:31:12 2022
 
 from collections import OrderedDict
 import csv
+import json
 
 import matplotlib.pylab as plt
 import numpy as np
@@ -87,7 +88,7 @@ REG_HEADER = '''Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\Default%20Settings]
 '''
-with open('putty.reg', 'wt') as f:
+with open('putty-dof.reg', 'wt') as f:
     f.write(REG_HEADER)
     for idx, rgb in enumerate(putty):
         print('"Colour{}"="'.format(idx), end='', file=f)
@@ -120,6 +121,24 @@ with open('mintty-dof', 'wt') as f:
     for key, rgb in mintty.items():
         print('{} = '.format(key), end='', file=f)
         print(','.join(np.char.mod('%d', rgb)), file=f)
+
+# Print Windows Terminal JSON
+WINTERM_KEYS = [
+    'background',
+    'black', 'red', 'green', 'yellow', 'blue', 'purple', 'cyan', 'white',
+    'brightBlack', 'brightRed', 'brightGreen', 'brightYellow', 'brightBlue', 'brightPurple', 'brightCyan', 'brightWhite',
+]
+
+winterm_dict = {'name': 'DOF', 'selectionBackground': '#FFFFFF'}
+for idx, key in enumerate(WINTERM_KEYS):
+    r, g, b = rgbs[idx]
+    winterm_dict[key] = f'#{r:02X}{g:02X}{b:02X}'
+
+winterm_dict['foreground'] = winterm_dict['white']
+winterm_dict['cursorColor'] = winterm_dict['brightGreen']
+
+with open('winterm-dof.json', 'w') as jf:
+    json.dump(winterm_dict, jf, indent=4)
 
 
 # Generate preveiw
