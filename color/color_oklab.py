@@ -15,54 +15,48 @@ import numpy as np
 
 FLT_MAX = np.finfo(np.float32).max
 
+RGB_TO_LMS = np.asarray([
+    [0.4122214708, 0.5363325363, 0.0514459929],
+    [0.2119034982, 0.6806995451, 0.1073969566],
+    [0.0883024619, 0.2817188376, 0.6299787005],
+], dtype=np.float32)
+
+LMS_TO_OKLAB = np.asarray([
+    [0.2104542553, +0.7936177850, -0.0040720468],
+    [1.9779984951, -2.4285922050, +0.4505937099],
+    [0.0259040371, +0.7827717662, -0.8086757660],
+], dtype=np.float32)
+
+OKLAB_TO_LMS = np.asarray([
+    [1.0, +0.3963377774, +0.2158037573],
+    [1.0, -0.1055613458, -0.0638541728],
+    [1.0, -0.0894841775, -1.2914855480],
+], dtype=np.float32)
+
+LMS_TO_RGB = np.asarray([
+    [+4.0767416621, -3.3077115913, +0.2309699292],
+    [-1.2684380046, +2.6097574011, -0.3413193965],
+    [-0.0041960863, -0.7034186147, +1.7076147010],
+], dtype=np.float32)
+
 
 def linear_srgb_to_oklab(c):
-    if type(c) is not np.ndarray:
-        c = np.asarray(c, dtype=np.float32)
+    c = np.asarray(c, dtype=np.float32)
 
-    r = c[..., 0]
-    g = c[..., 1]
-    b = c[..., 2]
-
-    l = 0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b
-    m = 0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b
-    s = 0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b
-
-    l_ = np.cbrt(l)
-    m_ = np.cbrt(m)
-    s_ = np.cbrt(s)
-
-    return np.stack([
-        0.2104542553 * l_ + 0.7936177850 * m_ - 0.0040720468 * s_,
-        1.9779984951 * l_ - 2.4285922050 * m_ + 0.4505937099 * s_,
-        0.0259040371 * l_ + 0.7827717662 * m_ - 0.8086757660 * s_,
-    ], axis=-1)
+    lms = np.inner(c, RGB_TO_LMS)
+    lms_ = np.cbrt(lms)
+    return np.inner(lms_, LMS_TO_OKLAB)
 
 
 def oklab_to_linear_srgb(c):
-    if type(c) is not np.ndarray:
-        c = np.asarray(c, dtype=np.float32)
+    c = np.asarray(c, dtype=np.float32)
 
-    L = c[..., 0]
-    a = c[..., 1]
-    b = c[..., 2]
-
-    l_ = L + 0.3963377774 * a + 0.2158037573 * b
-    m_ = L - 0.1055613458 * a - 0.0638541728 * b
-    s_ = L - 0.0894841775 * a - 1.2914855480 * b
-
-    l = l_ * l_ * l_
-    m = m_ * m_ * m_
-    s = s_ * s_ * s_
-
-    return np.stack([
-        +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
-        -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
-        -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s,
-    ], axis=-1)
+    lms_ = np.inner(c, OKLAB_TO_LMS)
+    lms = lms_ * lms_ * lms_
+    return np.inner(lms, LMS_TO_RGB)
 
 
-def rgb_to_oklch(rgb):
+def lrgb_to_oklch(rgb):
     lab = linear_srgb_to_oklab(rgb)
     L = lab[..., 0]
     a = lab[..., 1]
@@ -74,9 +68,8 @@ def rgb_to_oklch(rgb):
     return np.stack([L, C, h], axis=-1)
 
 
-def oklch_to_rgb(c):
-    if type(c) is not np.ndarray:
-        c = np.asarray(c, dtype=np.float32)
+def oklch_to_lrgb(c):
+    c = np.asarray(c, dtype=np.float32)
 
     L = c[..., 0]
     C = c[..., 1]
@@ -264,9 +257,41 @@ def find_gamut_intersection(a, b, L1, C1, L0):
     return t
 
 
+def gamut_clip_preserve_chroma(rgb):
+    rgb = np.asarray(rgb, dtype=np.float32)
+
+    r = rgb[..., 0]
+    g = rgb[..., 1]
+    b = rgb[..., 2]
+    not_clip = np.all([r < 1, g < 1, b < 1, r >= 0, g >= 0, b >= 0], axis=0)
+    not_clip = np.stack([not_clip, not_clip, not_clip], axis=-1)
+
+    lab = linear_srgb_to_oklab(rgb)
+
+    L = lab[..., 0]
+    a = lab[..., 1]
+    b = lab[..., 2]
+
+    eps = 0.00001
+    C = np.maximum(eps, np.sqrt(a * a + b * b))
+    a_ = a / C
+    b_ = b / C
+
+    L0 = np.clip(L, 0, 1)
+
+    t = find_gamut_intersection(a_, b_, L, C, L0)
+    L_clipped = L0 * (1 - t) + t * L
+    C_clipped = t * C
+
+    clipped = np.stack([L_clipped, C_clipped * a_, C_clipped * b_], axis=-1)
+    ret = oklab_to_linear_srgb(clipped)
+    np.putmask(ret, not_clip, rgb)
+
+    return ret
+
+
 def gamut_clip_adaptive_L0_0_5(rgb, alpha=0.05):
-    if type(rgb) is not np.ndarray:
-        rgb = np.asarray(rgb, dtype=np.float32)
+    rgb = np.asarray(rgb, dtype=np.float32)
 
     r = rgb[..., 0]
     g = rgb[..., 1]
