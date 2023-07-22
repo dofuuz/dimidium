@@ -39,39 +39,43 @@ color = np.asarray(color, dtype=np.float32)
 
 # plt.imshow([color/255])
 
-# Convert to JCh
+# Convert to OklCh
 lrgb = srgb_to_lin_srgb(color/255)
-color_jch = linear_srgb_to_oklch(lrgb)
+color_lch = linear_srgb_to_oklch(lrgb)
 
 # Normalize lightness
-color_jch[5,0] = (color_jch[2,0] + color_jch[5,0]) / 2  # adjust blue
-color_jch[13,0] = (color_jch[10,0] + color_jch[13,0]) / 2  # adjust bright blue
+j = color_lch[..., 0]
+j[5] = (j[2] + j[5]) / 2  # adjust blue
+j[13] = (j[10] + j[13]) / 2  # adjust bright blue
 
-j_mean = (np.mean(color_jch[2:8,0]) + np.mean(color_jch[10:16,0])) / 2
-color_jch[2:8,0] = (color_jch[2:8,0] + j_mean) / 2  # color
+j_mean = (np.mean(j[2:8]) + np.mean(j[10:16])) / 2
+j[2:8] = (j[2:8] + j_mean) / 2  # color
 
-# j_mean = np.mean(color_jch[10:16,0])
-color_jch[10:16,0] = (color_jch[10:16,0] + j_mean) / 2  # bright color
+# j_mean = np.mean(j[10:16])
+j[10:16] = (j[10:16] + j_mean) / 2  # bright color
 
-color_jch[8,0] = (color_jch[8,0] + np.max(color_jch[2:8,0])) / 2  # white
-color_jch[16,0] = (color_jch[16,0] + np.max(color_jch[10:16,0])) / 2  # bright white
+j[8] = (j[8] + np.max(j[2:8])) / 2  # white
+j[16] = (j[16] + np.max(j[10:16])) / 2  # bright white
 
 # Normalize chroma
-c_min = np.min([color_jch[2:8,1], color_jch[10:16,1]])
-color_jch[2:8,1] = (color_jch[2:8,1] + c_min) / 2
+c = color_lch[..., 1]
+c_min = np.min([c[2:8], c[10:16]])
+c[2:8] = (c[2:8] + c_min) / 2
 
-c_min = np.min(color_jch[10:16,1])
-color_jch[10:16,1] = (color_jch[10:16,1] + c_min) / 2
+c_min = np.min(c[10:16])
+c[10:16] = (c[10:16] + c_min) / 2
 
 # Set hue(avg delta to original is about 26)
-color_jch[2:8,2] = (0, 120, 60, 240, 300, 180)
-color_jch[2:8,2] += 15
+h = color_lch[..., 2]
+h[2:8] = (0, 120, 60, 240, 300, 180)
+h[2:8] += 15
 
-color_jch[10:16,2] = (0, 120, 60, 240, 300, 180)
-color_jch[10:16,2] += 30
+h[10:16] = (0, 120, 60, 240, 300, 180)
+h[10:16] += 30
 
 # Convert back to RGB
-color_rgb = oklch_to_linear_srgb(color_jch)
+color_lch_adj = np.stack([j, c, h], axis=-1)
+color_rgb = oklch_to_linear_srgb(color_lch_adj)
 color_rgb[8,:] = np.mean(color_rgb[8,:])
 color_rgb[16,:] = np.mean(color_rgb[16,:])
 color_rgb = gamut_clip_adaptive_L0_0_5(color_rgb)
