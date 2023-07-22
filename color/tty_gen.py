@@ -12,7 +12,9 @@ import json
 import matplotlib.pylab as plt
 import numpy as np
 
-from color_oklab import rgb_to_oklch, oklch_to_rgb, gamut_clip_adaptive_L0_0_5
+from color_oklab import linear_srgb_to_oklch, oklch_to_linear_srgb
+from color_oklab import gamut_clip_adaptive_L0_0_5
+from color_srgb import lin_srgb_to_srgb, srgb_to_lin_srgb
 
 
 REF_COLOR = 9   # xterm color scheme
@@ -38,27 +40,28 @@ color = np.asarray(color, dtype=np.float32)
 # plt.imshow([color/255])
 
 # Convert to JCh
-color_jch = rgb_to_oklch(color/255)
+lrgb = srgb_to_lin_srgb(color/255)
+color_jch = linear_srgb_to_oklch(lrgb)
 
 # Normalize lightness
-color_jch[5,0] = max(color_jch[2,0], color_jch[5,0])  # adjust blue
+color_jch[5,0] = (color_jch[2,0] + color_jch[5,0]) / 2  # adjust blue
+color_jch[13,0] = (color_jch[10,0] + color_jch[13,0]) / 2  # adjust bright blue
 
-j_mean = (np.mean(color_jch[10:16,0]) + color_jch[8,0]) / 2
-color_jch[2:9,0] = np.cbrt((color_jch[2:9,0]**3 + j_mean**3) / 2)
-color_jch[10:16,0] = np.cbrt((color_jch[10:16,0]**3 + j_mean**3) / 2)
+j_mean = (np.mean(color_jch[2:8,0]) + np.mean(color_jch[10:16,0])) / 2
+color_jch[2:8,0] = (color_jch[2:8,0] + j_mean) / 2  # color
 
-j_w_mean = np.mean([color_jch[8,0], color_jch[16,0]])
-color_jch[8,0] = (color_jch[8,0] + j_w_mean) / 2
-color_jch[16,0] = (color_jch[16,0] + j_w_mean) / 2
+# j_mean = np.mean(color_jch[10:16,0])
+color_jch[10:16,0] = (color_jch[10:16,0] + j_mean) / 2  # bright color
+
+color_jch[8,0] = (color_jch[8,0] + np.max(color_jch[2:8,0])) / 2  # white
+color_jch[16,0] = (color_jch[16,0] + np.max(color_jch[10:16,0])) / 2  # bright white
 
 # Normalize chroma
-color_jch[13,1] = max(color_jch[5,1], color_jch[13,1])  # adjust bold blue
-
 c_min = np.min([color_jch[2:8,1], color_jch[10:16,1]])
-color_jch[2:8,1] = (color_jch[2:8,1] + c_min) / 3.5
+color_jch[2:8,1] = (color_jch[2:8,1] + c_min) / 2
 
 c_min = np.min(color_jch[10:16,1])
-color_jch[10:16,1] = (color_jch[10:16,1] + c_min) / 3
+color_jch[10:16,1] = (color_jch[10:16,1] + c_min) / 2
 
 # Set hue(avg delta to original is about 26)
 color_jch[2:8,2] = (0, 120, 60, 240, 300, 180)
@@ -68,15 +71,16 @@ color_jch[10:16,2] = (0, 120, 60, 240, 300, 180)
 color_jch[10:16,2] += 30
 
 # Convert back to RGB
-color_rgb = oklch_to_rgb(color_jch)
+color_rgb = oklch_to_linear_srgb(color_jch)
 color_rgb[8,:] = np.mean(color_rgb[8,:])
 color_rgb[16,:] = np.mean(color_rgb[16,:])
 color_rgb = gamut_clip_adaptive_L0_0_5(color_rgb)
+color_rgb = lin_srgb_to_srgb(color_rgb)
 rgbs = (color_rgb*255).round().clip(0, 255).astype('uint8')
 rgbs[9,:] = 85
 
 plt.figure()
-plt.imshow([rgbs])
+plt.imshow([rgbs[0:9], rgbs[8:17]])
 
 
 # Write putty.reg

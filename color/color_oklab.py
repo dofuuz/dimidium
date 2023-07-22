@@ -56,7 +56,7 @@ def oklab_to_linear_srgb(c):
     return np.inner(lms, LMS_TO_RGB)
 
 
-def lrgb_to_oklch(rgb):
+def linear_srgb_to_oklch(rgb):
     lab = linear_srgb_to_oklab(rgb)
     L = lab[..., 0]
     a = lab[..., 1]
@@ -68,7 +68,7 @@ def lrgb_to_oklch(rgb):
     return np.stack([L, C, h], axis=-1)
 
 
-def oklch_to_lrgb(c):
+def oklch_to_linear_srgb(c):
     c = np.asarray(c, dtype=np.float32)
 
     L = c[..., 0]
