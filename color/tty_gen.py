@@ -1,20 +1,36 @@
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Mon Mar 14 13:31:12 2022
+Created on 2022-03-14
 
-@author: dof
+"DOF" (Depth of Field) color scheme for terminals
+https://github.com/dofuuz/dotfiles
+
+This color scheme aims enhanced readability by reducing perceptual lightness differences between
+colors. In the typical terminal settings, there were issues with certain text colors (especially
+blue) being poorly visible. To solve this, the lightness has been equalized using the latest color
+space "CAM16".
+
+More information about the Color appearance model, including CAM16:
+https://en.wikipedia.org/wiki/Color_appearance_model
+
+xterm's simple color scheme was chosen as the base. For readability, the lightness has been adjusted
+to avoid being too bright or too dark. Hue values were set to maximize color distinction, and
+saturation was adjusted to fit within the color display range.
+
+Unlike the "helmholtz" or "kohlrausch" color schemes, this color scheme does not aim for equal
+brightness. It preserves some lightness and saturation variation to keep each color's essence. In
+fact, if each color were adjusted to the same lightness and saturation using CAM16, colors would
+become quite "uncomfortable".
 """
 
 from collections import OrderedDict
 import csv
 import json
 
+import colour  # colour-science
 import matplotlib.pylab as plt
 import numpy as np
-
-from color_oklab import linear_srgb_to_oklch, oklch_to_linear_srgb
-from color_oklab import gamut_clip_adaptive_L0_0_5
-from color_srgb import lin_srgb_to_srgb, srgb_to_lin_srgb
 
 
 REF_COLOR = 9   # xterm color scheme
@@ -39,47 +55,54 @@ color = np.asarray(color, dtype=np.float32)
 
 # plt.imshow([color/255])
 
-# Convert to OklCh
-lrgb = srgb_to_lin_srgb(color/255)
-color_lch = linear_srgb_to_oklch(lrgb)
+# Convert to CAM16-UCS-JCh
+xyz = colour.sRGB_to_XYZ(color/255)
+jab = colour.XYZ_to_CAM16UCS(xyz)
+color_jch = colour.models.Jab_to_JCh(jab)
 
 # Normalize lightness
-j = color_lch[..., 0]
+j = color_jch[..., 0]
 j[5] = (j[2] + j[5]) / 2  # adjust blue
 j[13] = (j[10] + j[13]) / 2  # adjust bright blue
 
 j_mean = (np.mean(j[2:8]) + np.mean(j[10:16])) / 2
-j[2:8] = (j[2:8] + j_mean) / 2  # color
+j[2:8] = (j[2:8] + j_mean) / 2  # colors
 
 # j_mean = np.mean(j[10:16])
-j[10:16] = (j[10:16] + j_mean) / 2  # bright color
+j[10:16] = (j[10:16] + j_mean) / 2  # bright colors
 
 j[8] = (j[8] + np.max(j[2:8])) / 2  # white
 j[16] = (j[16] + np.max(j[10:16])) / 2  # bright white
 
 # Normalize chroma
-c = color_lch[..., 1]
-c_min = np.min([c[2:8], c[10:16]])
+c = color_jch[..., 1]
+c_min = np.min(c[2:8])
 c[2:8] = (c[2:8] + c_min) / 2
 
 c_min = np.min(c[10:16])
 c[10:16] = (c[10:16] + c_min) / 2
 
-# Set hue(avg delta to original is about 26)
-h = color_lch[..., 2]
+c /= 1.079  # clip chroma into sRGB gamut
+
+# Set hue(avg delta to original is about 33)
+h = color_jch[..., 2]
 h[2:8] = (0, 120, 60, 240, 300, 180)
-h[2:8] += 15
+h[2:8] += 20
 
 h[10:16] = (0, 120, 60, 240, 300, 180)
 h[10:16] += 30
 
 # Convert back to RGB
-color_lch_adj = np.stack([j, c, h], axis=-1)
-color_rgb = oklch_to_linear_srgb(color_lch_adj)
+color_jch_adj = np.stack([j, c, h], axis=-1)
+jab = colour.models.JCh_to_Jab(color_jch_adj)
+xyz = colour.CAM16UCS_to_XYZ(jab)
+color_rgb = colour.XYZ_to_sRGB(xyz, apply_cctf_encoding=False)
+
 color_rgb[8,:] = np.mean(color_rgb[8,:])
 color_rgb[16,:] = np.mean(color_rgb[16,:])
-color_rgb = gamut_clip_adaptive_L0_0_5(color_rgb)
-color_rgb = lin_srgb_to_srgb(color_rgb)
+# color_rgb = gamut_clip_adaptive_L0_0_5(color_rgb)
+color_rgb = colour.models.eotf_inverse_sRGB(color_rgb)
+print((color_rgb*255).round().astype('int'))
 rgbs = (color_rgb*255).round().clip(0, 255).astype('uint8')
 rgbs[9,:] = 85
 
