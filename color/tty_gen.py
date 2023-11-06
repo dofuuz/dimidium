@@ -63,12 +63,12 @@ color_jch = colour.models.Jab_to_JCh(jab)
 # Normalize lightness
 j = color_jch[..., 0]
 j[5] = (j[2] + j[5]) / 2  # adjust blue
-j[13] = (j[10] + j[13]) / 2  # adjust bright blue
+# j[13] = (j[10] + j[13]) / 2  # adjust bright blue
 
-j_mean = (np.mean(j[2:8]) + np.mean(j[10:16])) / 2
+j_mean = np.mean(j[2:8])
 j[2:8] = (j[2:8] + j_mean) / 2  # colors
 
-# j_mean = np.mean(j[10:16])
+j_mean = np.mean(j[10:16])
 j[10:16] = (j[10:16] + j_mean) / 2  # bright colors
 
 j[8] = (j[8] + np.max(j[2:8])) / 2  # white
@@ -82,21 +82,25 @@ c[2:8] = (c[2:8] + c_min) / 2
 c_min = np.min(c[10:16])
 c[10:16] = (c[10:16] + c_min) / 2
 
-c /= 1.079  # clip chroma into sRGB gamut
-
 # Set hue(avg delta to original is about 33)
 h = color_jch[..., 2]
 h[2:8] = (0, 120, 60, 240, 300, 180)
 h[2:8] += 20
 
 h[10:16] = (0, 120, 60, 240, 300, 180)
-h[10:16] += 30
+h[10:16] += 33
 
-# Convert back to RGB
-color_jch_adj = np.stack([j, c, h], axis=-1)
-jab = colour.models.JCh_to_Jab(color_jch_adj)
-xyz = colour.CAM16UCS_to_XYZ(jab)
-color_rgb = colour.XYZ_to_sRGB(xyz, apply_cctf_encoding=False)
+# clip chroma into sRGB gamut
+for desaturate in np.arange(1, 0.1, -0.001):
+    # Convert back to RGB
+    color_jch_adj = np.stack([j, c*desaturate, h], axis=-1)
+    jab = colour.models.JCh_to_Jab(color_jch_adj)
+    xyz = colour.CAM16UCS_to_XYZ(jab)
+    color_rgb = colour.XYZ_to_sRGB(xyz, apply_cctf_encoding=False)
+
+    if np.all(0 <= color_rgb) and np.all(color_rgb <= 1):
+        print(desaturate)
+        break
 
 color_rgb[8,:] = np.mean(color_rgb[8,:])
 color_rgb[16,:] = np.mean(color_rgb[16,:])
@@ -215,6 +219,6 @@ for k, v in d.items():
 with open(r'tty-preview.html', 'wt') as f:
     f.write(html)
 
-# html = html.replace('font-weight:bold;', '')
-# with open(r'tty-preview-nobold.html', 'wt') as f:
-#     f.write(html)
+html = html.replace('font-weight:bold;', '')
+with open(r'tty-preview-nobold.html', 'wt') as f:
+    f.write(html)
