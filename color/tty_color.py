@@ -156,7 +156,7 @@ def generate_colors(ref_color=9, plot=False):
     
     j_mean = np.mean(j[10:16])
     j[10:16] = (j[10:16] + j_mean) / 2  # bright colors
-    
+
     j[8] = (j[8] + np.max(j[2:8])) / 2  # white
     j[16] = (j[16] + np.max(j[10:16])) / 2  # bright white
     
@@ -166,13 +166,13 @@ def generate_colors(ref_color=9, plot=False):
         
         plot_hue(color_jch)
     
-    # Set hue(avg delta to original is about 33)
+    # Set hue(mean delta to original is about 3)
     h = color_jch[..., 2]
-    h[2:8] = (0, 120, 60, 240, 300, 180)
-    h[2:8] += 20
+    h[2:8] = (30, 150, 90, 270, 330, 210)
+    h[2:8] -= 10
 
-    h[10:16] = (0, 120, 60, 240, 300, 180)
-    h[10:16] += 33
+    h[10:16] = (30, 150, 90, 270, 330, 210)
+    h[10:16] += 3
 
     if plot:
         plot_hue(color_jch)
