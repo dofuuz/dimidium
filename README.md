@@ -1,19 +1,5 @@
-Personal dotfiles
+# Dimidium: Terminal color scheme made with 'science'
 
+[Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/color/tty-preview.html)
 
-### Zsh
-
-https://grml.org/zsh/
-
-```
-wget -O ~/.zshrc https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc
-wget -O ~/.zshrc.local https://raw.githubusercontent.com/dofuuz/dotfiles/main/.zshrc.local
-chsh -s $(which zsh)
-```
-
-
-### Terminal color scheme
-
-[Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dotfiles/blob/main/color/tty-preview.html)
-
-[PuTTY](https://raw.githubusercontent.com/dofuuz/dotfiles/main/color/putty-dof.reg) | [Mintty](https://raw.githubusercontent.com/dofuuz/dotfiles/main/color/mintty-dof) | [Windows Terminal](https://raw.githubusercontent.com/dofuuz/dotfiles/main/color/winterm-dof.json)
+[PuTTY](https://raw.githubusercontent.com/dofuuz/dimidium/main/color/putty-dof.reg) | [Mintty](https://raw.githubusercontent.com/dimidium/dotfiles/main/color/mintty-dof) | [Windows Terminal](https://raw.githubusercontent.com/dimidium/dotfiles/main/color/winterm-dof.json)
