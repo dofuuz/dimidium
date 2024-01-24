@@ -1,4 +1,4 @@
-ForegroundColour = 200,197,196
+ForegroundColour = 186,183,182
 BackgroundColour = 20,20,20
 CursorColour = 55,229,123
 Black = 0,0,0
@@ -15,5 +15,5 @@ Magenta = 175,94,210
 BoldMagenta = 237,111,233
 Cyan = 29,182,187
 BoldCyan = 50,224,251
-White = 200,197,196
-BoldWhite = 235,231,230
+White = 186,183,182
+BoldWhite = 218,214,213

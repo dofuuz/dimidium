@@ -9,7 +9,7 @@
     "blue": "#0575D8",
     "purple": "#AF5ED2",
     "cyan": "#1DB6BB",
-    "white": "#C8C5C4",
+    "white": "#BAB7B6",
     "brightBlack": "#565554",
     "brightRed": "#FF643B",
     "brightGreen": "#37E57B",
@@ -17,7 +17,7 @@
     "brightBlue": "#688DFD",
     "brightPurple": "#ED6FE9",
     "brightCyan": "#32E0FB",
-    "brightWhite": "#EBE7E6",
-    "foreground": "#C8C5C4",
+    "brightWhite": "#DAD6D5",
+    "foreground": "#BAB7B6",
     "cursorColor": "#37E57B"
 }

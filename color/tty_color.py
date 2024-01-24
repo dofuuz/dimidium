@@ -152,13 +152,10 @@ def generate_colors(ref_color=9, plot=False):
     # j[13] = (j[10] + j[13]) / 2  # adjust bright blue
     
     j_mean = np.mean(j[2:8])
-    j[2:8] = (j[2:8] + j_mean) / 2  # colors
+    j[2:9] = (j[2:9] + j_mean) / 2  # colors
     
     j_mean = np.mean(j[10:16])
-    j[10:16] = (j[10:16] + j_mean) / 2  # bright colors
-
-    j[8] = (j[8] + np.max(j[2:8])) / 2  # white
-    j[16] = (j[16] + np.max(j[10:16])) / 2  # bright white
+    j[10:17] = (j[10:17] + j_mean) / 2  # bright colors
     
     if plot:
         plot_lightness(color_jch)
