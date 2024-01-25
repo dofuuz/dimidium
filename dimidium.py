@@ -116,7 +116,7 @@ def plot_colors(jchs):
 
 
 def get_colors_from_tsv(ref_color):
-    with open('tty_color.tsv', newline='') as f:
+    with open('recipe/tty_color.tsv', newline='') as f:
         f.readline()
         f.readline()
         reader = csv.reader(f, delimiter='\t')
