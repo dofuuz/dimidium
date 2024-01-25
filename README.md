@@ -2,14 +2,17 @@
 
 A terminal color scheme, cooked with science.
 
+![palette](img/palette.png)
+
 [Preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
 
-## Download config
+
+### Download config file
 
 [PuTTY](https://raw.githubusercontent.com/dofuuz/dimidium/main/config/putty-dof.reg) | [Mintty](https://raw.githubusercontent.com/dofuuz/dimidium/main/config/mintty-dof) | [Windows Terminal](https://raw.githubusercontent.com/dofuuz/dimidium/main/config/winterm-dof.json)
 
 
-## Color table
+### Color table
 
 Name           | RGB255        | HEX
 ---------------|---------------|--------
