@@ -5,7 +5,7 @@
 # special
 foreground      = #bab7b6
 foreground_bold = #dad6d5
-cursor          = #bab7b6
+cursor          = #37e57b
 background      = #141414
 
 # black

@@ -20,7 +20,7 @@ REG_HEADER = '''Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\Default%20Settings]
 '''
-with open('config/putty-dof.reg', 'wt') as f:
+with open('config/dimidium-putty.reg', 'wt') as f:
     f.write(REG_HEADER)
     for idx, rdx in enumerate([8, 16, 0, 9, 0, 11, 1, 9, 2, 10, 3, 11, 4, 12, 5, 13, 6, 14, 7, 15, 8, 16]):
         r, g, b = rgbs[rdx]
@@ -48,7 +48,7 @@ mintty['BoldCyan'] = rgbs[15]
 mintty['White'] = rgbs[8]
 mintty['BoldWhite'] = rgbs[16]
 
-with open('config/mintty-dof', 'wt') as f:
+with open('config/dimidium-mintty', 'wt') as f:
     for key, (r, g, b) in mintty.items():
         print(f'{key} = {r},{g},{b}', file=f)
 
@@ -59,7 +59,7 @@ WINTERM_KEYS = [
     'brightBlack', 'brightRed', 'brightGreen', 'brightYellow', 'brightBlue', 'brightPurple', 'brightCyan', 'brightWhite',
 ]
 
-winterm_dict = {'name': 'DOF', 'selectionBackground': '#FFFFFF'}
+winterm_dict = {'name': 'Dimidium', 'selectionBackground': '#FFFFFF'}
 for idx, key in enumerate(WINTERM_KEYS):
     r, g, b = rgbs[idx]
     winterm_dict[key] = f'#{r:02X}{g:02X}{b:02X}'
@@ -67,8 +67,8 @@ for idx, key in enumerate(WINTERM_KEYS):
 winterm_dict['foreground'] = winterm_dict['white']
 winterm_dict['cursorColor'] = winterm_dict['brightGreen']
 
-with open('config/winterm-dof.json', 'w') as jf:
-    json.dump(winterm_dict, jf, indent=4)
+with open('config/dimidium-windowsterminal.json', 'w') as jf:
+    json.dump({"schemes": [winterm_dict]}, jf, indent=2)
 
 
 # Generate preveiw
