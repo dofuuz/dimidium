@@ -3,8 +3,8 @@
 """
 Created on Sun Dec 10 15:01:59 2023
 
-"DOF" (Depth of Field) color scheme for terminals
-https://github.com/dofuuz/dotfiles
+"Dimidium" color scheme for terminals
+https://github.com/dofuuz/dimidium
 
 This color scheme aims enhanced readability by reducing perceptual lightness differences between
 colors. In the typical terminal settings, there were issues with certain text colors (especially

@@ -1,18 +1,22 @@
 # Dimidium
 
-A terminal color scheme, cooked with science.
+Dimidium is a standard-looking color scheme, adjusted to have uniform visibility for all colors.
+
+It aims to be a decent default for terminals.
 
 ![palette](img/palette.png)
 
 ![terminal preview](img/preview-terminal.png)  
 (Font: [Cascaida Code](https://github.com/microsoft/cascadia-code))
 
-[More preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
+🔍 [More preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
 
 
-## Terminal config download 🛠️⬇️
+## 🛠️ Usage
 
-See inside [config](config) directory.
+Terminal config download and guides
+
+→ See inside [config](config) directory. 
 
 
 ## Color table
@@ -33,7 +37,7 @@ Crafted with [CAM16](https://en.wikipedia.org/wiki/Color_appearance_model#CAM16)
 ![Lightness before adjust](img/cmp-lightness0.png)  
 ![Lightness after adjust](img/cmp-lightness1.png)
 
-It reduces brightness differences to ensure all colors are well visible. Fixed common problems with typical color schemes, such as blues being too dark and greens being too vibrant.
+Reduced brightness difference ensures that all colors are easily visible. Fixed common problems with typical color schemes, such as blues being too dark and greens being too vibrant.
 
 ### Uniform hue difference
 
