@@ -26,7 +26,7 @@ Terminal config download and guides
 
 ## Crafting Dimidium
 
-Dimidium was created by adjusting traditional terminal color scheme with the CAM(Color Appearance Model). Through this, it solves the issues of default color schemes while preserving their essence.
+Dimidium was created by adjusting traditional color scheme. It solves the issues of default color schemes while preserving their essence.
 
 ### Color Appearance Model
 
@@ -35,13 +35,15 @@ Crafted with [CAM16](https://en.wikipedia.org/wiki/Color_appearance_model#CAM16)
 ### Half lightness disparity
 
 ![Lightness before adjust](img/cmp-lightness0.png)  
-![Lightness after adjust](img/cmp-lightness1.png)
+![Lightness after adjust](img/cmp-lightness1.png)  
+(Top: Before adjust / Bottom: Dimidium)
 
-Reduced brightness difference ensures that all colors are easily visible. Fixed common problems with typical color schemes, such as blues being too dark and greens being too vibrant.
+Reduced brightness difference ensures that all colors are easily visible. Fixed common problems of typical color schemes, such as blues being too dark and greens being too vibrant.
 
 ### Uniform hue difference
 
-![Hue, chroma before adjust](img/cmp-color0.png) ![Hue, chroma after adjust](img/cmp-color1.png)
+![Hue, chroma adjust](img/cmp-color.png)  
+(Left: Before adjust / Right: Dimidium)
 
 Hue differences were equalized to maximize color variation.
 
