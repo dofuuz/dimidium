@@ -1,5 +1,11 @@
 Windows Registry Editor Version 5.00
 
+; "Dimidium" color scheme for terminals
+; https://github.com/dofuuz/dimidium
+;
+; SPDX-FileCopyrightText: (c) 2024 Myungchul Keum
+; SPDX-License-Identifier: Zlib
+
 [HKEY_CURRENT_USER\Software\SimonTatham\PuTTY\Sessions\Default%20Settings]
 "Colour0"="186,183,182"
 "Colour1"="218,214,213"

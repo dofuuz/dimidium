@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Sun Dec 10 15:01:59 2023
-
 "Dimidium" color scheme for terminals
 https://github.com/dofuuz/dimidium
+
+SPDX-FileCopyrightText: (c) 2024 Myungchul Keum
+SPDX-License-Identifier: Zlib
 
 This color scheme aims enhanced readability by reducing perceptual lightness differences between
 colors. In the typical terminal settings, there were issues with certain text colors (especially

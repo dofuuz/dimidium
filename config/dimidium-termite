@@ -1,6 +1,10 @@
-[colors]
-# Dimidium color scheme
+# "Dimidium" color scheme for terminals
 # https://github.com/dofuuz/dimidium
+#
+# SPDX-FileCopyrightText: (c) 2024 Myungchul Keum
+# SPDX-License-Identifier: Zlib
+
+[colors]
 
 # special
 foreground      = #bab7b6

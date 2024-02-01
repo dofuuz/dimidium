@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+"Dimidium" color scheme for terminals
+https://github.com/dofuuz/dimidium
+
+SPDX-FileCopyrightText: (c) 2024 Myungchul Keum
+SPDX-License-Identifier: Zlib
+
 Write terminal color settings and preview from palette.
 """
 

@@ -1,3 +1,9 @@
+# "Dimidium" color scheme for terminals
+# https://github.com/dofuuz/dimidium
+#
+# SPDX-FileCopyrightText: (c) 2024 Myungchul Keum
+# SPDX-License-Identifier: Zlib
+
 ForegroundColour = 186,183,182
 BackgroundColour = 20,20,20
 CursorColour = 55,229,123

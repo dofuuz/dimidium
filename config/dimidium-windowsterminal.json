@@ -1,3 +1,9 @@
+// "Dimidium" color scheme for terminals
+// https://github.com/dofuuz/dimidium
+//
+// SPDX-FileCopyrightText: (c) 2024 Myungchul Keum
+// SPDX-License-Identifier: Zlib
+
 {
   "schemes": [
     {
