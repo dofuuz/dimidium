@@ -1,6 +1,6 @@
 # Dimidium
 
-Dimidium is a standard-looking color scheme, adjusted to have uniform visibility for all colors.
+A standard-looking terminal color scheme, adjusted to have uniform visibility across all colors.
 
 It aims to be a decent default for terminals.
 
@@ -16,7 +16,7 @@ It aims to be a decent default for terminals.
 
 Terminal config download and guides
 
-→ See inside [config](config) directory. 
+→ Navigate to [config](config) directory. 
 
 
 ## Color table
@@ -26,11 +26,11 @@ Terminal config download and guides
 
 ## Crafting Dimidium
 
-Dimidium was created by adjusting traditional color scheme. It solves the issues of default color schemes while preserving their essence.
+By adjusting traditional color scheme, Dimidium solves visibility issues while preserving their essence.
 
 ### Color Appearance Model
 
-Crafted with [CAM16](https://en.wikipedia.org/wiki/Color_appearance_model#CAM16), it considers the perceptual aspect(lightness, hue) of human color vision.
+Crafted with [CAM16](https://en.wikipedia.org/wiki/Color_appearance_model#CAM16), it considers the perceptual aspects(lightness, hue) of human color vision.
 
 ### Half lightness disparity
 
@@ -38,7 +38,9 @@ Crafted with [CAM16](https://en.wikipedia.org/wiki/Color_appearance_model#CAM16)
 ![Lightness after adjust](img/cmp-lightness1.png)  
 (Top: Before adjust / Bottom: Dimidium)
 
-Reduced brightness difference ensures that all colors are easily visible. Fixed common problems of typical color schemes, such as blues being too dark and greens being too vibrant.
+By reduceing perceptual lightness difference, common issues like too dark blues and excessively vibrant greens have been resolved.
+
+(Note: 'Dimidium' is Latin for 'half'.)
 
 ### Uniform hue difference
 
@@ -51,6 +53,8 @@ Introducing hue offsets between normal/bright colors ensures even better distinc
 
 
 ## Further readings
+
+Explore the science behind Dimidium.
 
 [Color appearance model - Wikipedia](https://en.wikipedia.org/wiki/Color_appearance_model)
 
