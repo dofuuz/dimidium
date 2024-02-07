@@ -1,6 +1,6 @@
 # Dimidium
 
-A standard-looking terminal color scheme, adjusted to have uniform visibility across all colors.
+Dimidium is a standard-looking terminal color scheme, adjusted to have uniform visibility across all colors.
 
 It aims to be a decent default for terminals.
 
@@ -38,7 +38,7 @@ Crafted with [CAM16](https://en.wikipedia.org/wiki/Color_appearance_model#CAM16)
 ![Lightness after adjust](img/cmp-lightness1.png)  
 (Top: Before adjust / Bottom: Dimidium)
 
-By reduceing perceptual lightness difference, common issues like too dark blues and excessively vibrant greens have been resolved.
+By reducing perceptual lightness difference to half, common issues such as too dark blues and excessively vibrant greens have been resolved.
 
 (Note: 'Dimidium' is Latin for 'half'.)
 
