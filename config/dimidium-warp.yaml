@@ -1,0 +1,24 @@
+details: "darker"
+background: "#141414"
+terminal_colors:
+  bright:
+    blue: "#688DFD"
+    magenta: "#ED6FE9"
+    red: "#FF643B"
+    white: "#DAD6D5"
+    black: "#565554"
+    cyan: "#32E0FB"
+    green: "#37E57B"
+    yellow: "#FCCD1A"
+  normal:
+    cyan: "#1DB6BB"
+    red: "#CF494C"
+    blue: "#0575D8"
+    yellow: "#ffd54f"
+    green: "#60B442"
+    magenta: "#AF5ED2"
+    white: "#BAB7B6"
+    black: "#000000"
+accent: "#009eff"
+foreground: "#BAB7B6"
+
