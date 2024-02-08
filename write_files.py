@@ -21,6 +21,37 @@ from dimidium import generate_colors, get_colors_from_tsv
 rgbs = generate_colors(9)
 # rgbs = get_colors_from_tsv(9).astype(np.uint8)
 
+
+names = [
+    'Background',
+    'Black',
+    'Red',
+    'Green',
+    'Yellow',
+    'Blue',
+    'Magenta',
+    'Cyan',
+    'White',
+    'Bright Black',
+    'Bright Red',
+    'Bright Green',
+    'Bright Yellow',
+    'Bright Blue',
+    'Bright Magenta',
+    'Bright Cyan',
+    'Bright White',
+]
+
+print('<table style="background: #000">')
+for ix, (r, g, b) in enumerate(rgbs):
+    hexa = f'#{r:02X}{g:02X}{b:02X}'
+    rgbd = f'{r},{g},{b}'
+    print(f'<tr style="color:{hexa}"><td style="background:{hexa}">　</td><td>{names[ix]}</td><td>{rgbd}</td><td>{hexa}</td></tr>')
+print('</table>')
+
+for r, g, b in rgbs:
+    print(f'{r},{g},{b} | #{r:02X}{g:02X}{b:02X}')
+
 # Write putty.reg
 REG_HEADER = '''Windows Registry Editor Version 5.00
 
