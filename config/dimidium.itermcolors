@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+"Dimidium" color scheme for terminals
+https://github.com/dofuuz/dimidium
+
+SPDX-FileCopyrightText: (c) 2024 Myungchul Keum
+SPDX-License-Identifier: Zlib
+-->
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
@@ -189,38 +196,64 @@
 		<key>Red Component</key>
 		<real>0.0784313725490196</real>
 	</dict>
+	<key>Badge Color</key>
+	<dict>
+		<key>Alpha Component</key>
+		<real>0.5</real>
+		<key>Blue Component</key>
+		<real>0.29099728</real>
+		<key>Color Space</key>
+		<string>sRGB</string>
+		<key>Green Component</key>
+		<real>0.39890923</real>
+		<key>Red Component</key>
+		<real>1</real>
+	</dict>
 	<key>Bold Color</key>
 	<dict>
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Blue Component</key>
-		<real>0.7137254901960784</real>
+		<real>0.8352941176470589</real>
 		<key>Green Component</key>
-		<real>0.7176470588235294</real>
+		<real>0.8392156862745098</real>
 		<key>Red Component</key>
-		<real>0.7294117647058823</real>
+		<real>0.8549019607843137</real>
 	</dict>
 	<key>Cursor Color</key>
 	<dict>
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Blue Component</key>
-		<real>0.7137254901960784</real>
+		<real>0.4823529411764706</real>
 		<key>Green Component</key>
-		<real>0.7176470588235294</real>
+		<real>0.8980392156862745</real>
 		<key>Red Component</key>
-		<real>0.7294117647058823</real>
+		<real>0.21568627450980393</real>
+	</dict>
+	<key>Cursor Guide Color</key>
+	<dict>
+		<key>Alpha Component</key>
+		<real>0.25</real>
+		<key>Blue Component</key>
+		<real>0.85611342</real>
+		<key>Color Space</key>
+		<string>sRGB</string>
+		<key>Green Component</key>
+		<real>0.76570488</real>
+		<key>Red Component</key>
+		<real>0.46168256</real>
 	</dict>
 	<key>Cursor Text Color</key>
 	<dict>
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Blue Component</key>
-		<real>0.0784313725490196</real>
+		<real>0.8352941176470589</real>
 		<key>Green Component</key>
-		<real>0.0784313725490196</real>
+		<real>0.8392156862745098</real>
 		<key>Red Component</key>
-		<real>0.0784313725490196</real>
+		<real>0.8549019607843137</real>
 	</dict>
 	<key>Foreground Color</key>
 	<dict>
@@ -233,27 +266,38 @@
 		<key>Red Component</key>
 		<real>0.7294117647058823</real>
 	</dict>
+	<key>Link Color</key>
+	<dict>
+		<key>Color Space</key>
+		<string>sRGB</string>
+		<key>Blue Component</key>
+		<real>0.86539309</real>
+		<key>Green Component</key>
+		<real>0.52499575</real>
+		<key>Red Component</key>
+		<real>0.31965827</real>
+	</dict>
 	<key>Selected Text Color</key>
 	<dict>
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Blue Component</key>
-		<real>0.7137254901960784</real>
+		<real>0.0784313725490196</real>
 		<key>Green Component</key>
-		<real>0.7176470588235294</real>
+		<real>0.0784313725490196</real>
 		<key>Red Component</key>
-		<real>0.7294117647058823</real>
+		<real>0.0784313725490196</real>
 	</dict>
 	<key>Selection Color</key>
 	<dict>
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Blue Component</key>
-		<real>0.0784313725490196</real>
+		<real>0.89758485</real>
 		<key>Green Component</key>
-		<real>0.0784313725490196</real>
+		<real>0.71990134</real>
 		<key>Red Component</key>
-		<real>0.0784313725490196</real>
+		<real>0.55151239</real>
 	</dict>
 </dict>
 </plist>
