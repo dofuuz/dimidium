@@ -1,6 +1,8 @@
 
 Dimidium color scheme config for terminals.
 
+Some config files are generated using convertor of [iTerm2-Color-Schemes](https://github.com/mbadolato/iTerm2-Color-Schemes).
+
 
 ## Converting terminal config
 
