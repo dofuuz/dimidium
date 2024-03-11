@@ -21,7 +21,8 @@ Terminal config download and guides
 
 ## Color table
 
-![Dimidium color table](img/color_table.png)
+![Dimidium color table](img/color_table.png)  
+[Text version](config/README.md#color-table)
 
 
 ## Crafting Dimidium

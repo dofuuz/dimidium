@@ -12,7 +12,7 @@ yellow = '#fccd1a'
 
 [colors.cursor]
 cursor = '#37e57b'
-text = '#dad6d5'
+text = '#141414'
 
 [colors.normal]
 black = '#000000'
