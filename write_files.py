@@ -118,6 +118,7 @@ d['"color:white; background-color:black"'] = '"color:#{}; background-color:#{}"'
 d['background-color:black;'] = 'background-color:#{};'.format(h['Black'])
 d['background-color:red;'] = 'background-color:#{};'.format(h['Red'])
 d['background-color:lime;'] = 'background-color:#{};'.format(h['Green'])
+d['background-color:#55FF55;'] = 'background-color:#{};'.format(h['BoldGreen'])
 d['background-color:yellow;'] = 'background-color:#{};'.format(h['Yellow'])
 d['background-color:#3333FF;'] = 'background-color:#{};'.format(h['Blue'])
 d['background-color:fuchsia;'] = 'background-color:#{};'.format(h['Magenta'])
