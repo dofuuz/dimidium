@@ -168,11 +168,11 @@ SPDX-License-Identifier: Zlib
 		<key>Color Space</key>
 		<string>sRGB</string>
 		<key>Blue Component</key>
-		<real>0.32941176470588235</real>
+		<real>0.37340735</real>
 		<key>Green Component</key>
-		<real>0.3333333333333333</real>
+		<real>0.37484485</real>
 		<key>Red Component</key>
-		<real>0.33725490196078434</real>
+		<real>0.38243703</real>
 	</dict>
 	<key>Ansi 9 Color</key>
 	<dict>

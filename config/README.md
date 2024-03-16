@@ -31,7 +31,7 @@ Blue           | 5, 117, 216   | #0575D8
 Magenta        | 175, 94, 210  | #AF5ED2
 Cyan           | 29, 182, 187  | #1DB6BB
 White          | 186, 183, 182 | #BAB7B6
-Bright Black   | 86, 85, 84    | #565554
+Bright Black   | 98, 96, 95    | #62605F
 Bright Red     | 255, 100, 59  | #FF643B
 Bright Green   | 55, 229, 123  | #37E57B
 Bright Yellow  | 252, 205, 26  | #FCCD1A

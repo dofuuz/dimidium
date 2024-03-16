@@ -12,7 +12,7 @@
 #define Ansi_5_Color #af5ed2
 #define Ansi_6_Color #1db6bb
 #define Ansi_7_Color #bab7b6
-#define Ansi_8_Color #565554
+#define Ansi_8_Color #62605F
 #define Ansi_9_Color #ff643b
 #define Background_Color #141414
 #define Badge_Color #a09d9d

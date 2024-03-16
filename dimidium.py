@@ -136,7 +136,6 @@ def get_colors_from_tsv(ref_color):
 def generate_colors(ref_color=9, plot=False):
     color = get_colors_from_tsv(ref_color)
     color[0,:] = 20  # background
-    color[9,:] = 85  # bright black
 
     # Convert to CAM16-UCS-JCh
     xyz = colour.sRGB_to_XYZ(color/255)
@@ -157,7 +156,8 @@ def generate_colors(ref_color=9, plot=False):
     
     j_mean = np.mean(j[10:16])
     j[10:17] = (j[10:17] + j_mean) / 2  # bright colors
-    
+    j[9] = (j[0] + j_mean) / 2  # bright black
+
     if plot:
         plot_lightness(color_jch)
         plot_colors(color_jch)
@@ -209,6 +209,7 @@ def generate_colors(ref_color=9, plot=False):
         plot_colors(color_jch)
 
     if plot:
+        print(color_rgb)
         print((color_rgb*255).round().astype('int'))
     rgbs = (color_rgb*255).round().clip(0, 255).astype('uint8')
 
@@ -222,7 +223,6 @@ def generate_colors(ref_color=9, plot=False):
 
 
 if __name__ == '__main__':
-    np.set_printoptions(precision=3, suppress=True)
     plt.rcParams['figure.autolayout'] = True
 
     rgbs = generate_colors(plot=True)
