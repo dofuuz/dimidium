@@ -9,7 +9,7 @@
     },
     {
       "name": "BoldForeground",
-      "color": "#dad6d5",
+      "color": "#d7d7d7",
       "terminalMapping": "boldforeground"
     },
     {
@@ -74,7 +74,7 @@
     },
     {
       "name": "BrightBlack",
-      "color": "#62605F",
+      "color": "#62605f",
       "terminalMapping": "ansiBrightBlack"
     },
     {
@@ -109,7 +109,7 @@
     },
     {
       "name": "BrightWhite",
-      "color": "#dad6d5",
+      "color": "#d7d7d7",
       "terminalMapping": "ansiBrightWhite"
     }
   ],

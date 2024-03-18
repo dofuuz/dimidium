@@ -8,7 +8,7 @@
 !
 ! Black
 *.color0:      #000000
-*.color8:      #62605F
+*.color8:      #62605f
 !
 ! Red
 *.color1:      #cf494c
@@ -36,9 +36,9 @@
 !
 ! White
 *.color7:      #bab7b6
-*.color15:     #dad6d5
+*.color15:     #d7d7d7
 !
 ! Bold, Italic, Underline
-*.colorBD:     #dad6d5
+*.colorBD:     #d7d7d7
 !*.colorIT:
 !*.colorUL:

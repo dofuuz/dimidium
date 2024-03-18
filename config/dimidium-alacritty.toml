@@ -1,13 +1,13 @@
 # Colors (Dimidium)
 
 [colors.bright]
-black = '#62605F'
+black = '#62605f'
 blue = '#688dfd'
 cyan = '#32e0fb'
 green = '#37e57b'
 magenta = '#ed6fe9'
 red = '#ff643b'
-white = '#dad6d5'
+white = '#d7d7d7'
 yellow = '#fccd1a'
 
 [colors.cursor]
