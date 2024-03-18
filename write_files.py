@@ -105,43 +105,34 @@ winterm_dict['foreground'] = winterm_dict['white']
 winterm_dict['cursorColor'] = winterm_dict['brightGreen']
 
 with open('config/dimidium-windowsterminal.json', 'w') as jf:
-    json.dump({"schemes": [winterm_dict]}, jf, indent=2)
+    json.dump({"schemes": [winterm_dict]}, jf, indent=4)
 
 
 # Generate preveiw
+mintty['BoldBoldGreen'] = mintty['BoldGreen']
+mintty['BoldBackgroundColour'] = mintty['BackgroundColour']
+
+m = {}
 h = OrderedDict()
 for key, rgb in mintty.items():
-    h[key] = ''.join(np.char.mod('%02x', rgb))
+    r, g, b = rgb
+    h[key] = f'{r:02x}{g:02x}{b:02x}'
+    m[key] = f'{r}, {g}, {b}'
+
+aha_to_ansi = [['bg', 'BackgroundColour'], ['black', 'Black'], ['dimgray', 'Black'], ['red', 'Red'], ['lime', 'Green'], ['#55FF55', 'BoldGreen'], ['yellow', 'Yellow'], ['#3333FF', 'Blue'], ['fuchsia', 'Magenta'], ['aqua', 'Cyan'], ['white', 'White']]
 
 d = OrderedDict()
 d['"color:white; background-color:black"'] = '"color:#{}; background-color:#{}"'.format(h['ForegroundColour'], h['BackgroundColour'])
-d['background-color:black;'] = 'background-color:#{};'.format(h['Black'])
-d['background-color:red;'] = 'background-color:#{};'.format(h['Red'])
-d['background-color:lime;'] = 'background-color:#{};'.format(h['Green'])
-d['background-color:#55FF55;'] = 'background-color:#{};'.format(h['BoldGreen'])
-d['background-color:yellow;'] = 'background-color:#{};'.format(h['Yellow'])
-d['background-color:#3333FF;'] = 'background-color:#{};'.format(h['Blue'])
-d['background-color:fuchsia;'] = 'background-color:#{};'.format(h['Magenta'])
-d['background-color:aqua;'] = 'background-color:#{};'.format(h['Cyan'])
-d['background-color:white;'] = 'background-color:#{};'.format(h['White'])
-d['font-weight:bold;color:dimgray;'] = 'font-weight:bold;color:#{};'.format(h['BoldBlack'])
-d['font-weight:bold;color:red;'] = 'font-weight:bold;color:#{};'.format(h['BoldRed'])
-d['font-weight:bold;color:lime;'] = 'font-weight:bold;color:#{};'.format(h['BoldGreen'])
-d['font-weight:bold;color:yellow;'] = 'font-weight:bold;color:#{};'.format(h['BoldYellow'])
-d['font-weight:bold;color:#3333FF;'] = 'font-weight:bold;color:#{};'.format(h['BoldBlue'])
-d['font-weight:bold;color:fuchsia;'] = 'font-weight:bold;color:#{};'.format(h['BoldMagenta'])
-d['font-weight:bold;color:aqua;'] = 'font-weight:bold;color:#{};'.format(h['BoldCyan'])
-d['font-weight:bold;color:white;'] = 'font-weight:bold;color:#{};'.format(h['BoldWhite'])
-d['color:dimgray;'] = 'color:#{};'.format(h['Black'])
-d['color:red;'] = 'color:#{};'.format(h['Red'])
-d['color:lime;'] = 'color:#{};'.format(h['Green'])
-d['color:yellow;'] = 'color:#{};'.format(h['Yellow'])
-d['color:#3333FF;'] = 'color:#{};'.format(h['Blue'])
-d['color:fuchsia;'] = 'color:#{};'.format(h['Magenta'])
-d['color:aqua;'] = 'color:#{};'.format(h['Cyan'])
-d['color:white;'] = 'color:#{};'.format(h['White'])
+d['"color:black; background-color:white"'] = '"color:#{}; background-color:#{}"'.format(h['BackgroundColour'], h['ForegroundColour'])
+d.update({f'background-color:{k};': f'background-color:#{h[v]};' for k, v in aha_to_ansi})
+d.update({f'font-weight:bold;color:{k};': f'font-weight:bold;color:#{h["Bold"+v]};' for k, v in aha_to_ansi})
+d.update({f'color:{k};': f'color:#{h[v]};' for k, v in aha_to_ansi})
 d['"font-weight:bold;"'] = '"font-weight:bold;color:#{};"'.format(h['BoldWhite'])
 d['"font-weight:bold;background-color:'] = '"font-weight:bold;color:#{};background-color:'.format(h['BoldWhite'])
+d.update({f' xb.{k} ': f' #{h["Bold"+v]} ' for k, v in aha_to_ansi})
+d.update({f' x.{k} ': f' #{h[v]} ' for k, v in aha_to_ansi})
+d.update({f' rgb.b.{k} ': f' {m["Bold"+v]:13s} ' for k, v in aha_to_ansi})
+d.update({f' rgb.{k} ': f' {m[v]:13s} ' for k, v in aha_to_ansi})
 
 with open('recipe/tty-template.html') as f:
     html = f.read()
