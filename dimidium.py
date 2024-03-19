@@ -188,8 +188,8 @@ def generate_colors(ref_color=9, plot=False):
     c[0] = 0  # background
     c[8] = 0  # white
     c[9] = 0  # bright black
-    # c[16] = 0  # bright white
-    
+    c[16] *= 2  # bright white (give little color shift between whites)
+
     # clip chroma into sRGB gamut
     for desaturate in np.arange(1, 0.1, -0.001):
         # Convert back to RGB
