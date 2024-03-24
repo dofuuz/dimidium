@@ -36,9 +36,9 @@
 !
 ! White
 *.color7:      #bab7b6
-*.color15:     #d7d7d7
+*.color15:     #d3d8d9
 !
 ! Bold, Italic, Underline
-*.colorBD:     #d7d7d7
+*.colorBD:     #d3d8d9
 !*.colorIT:
 !*.colorUL:

@@ -8,7 +8,7 @@
 
 # special
 foreground      = #bab7b6
-foreground_bold = #d7d7d7
+foreground_bold = #d3d8d9
 cursor          = #37e57b
 background      = #141414
 
@@ -42,4 +42,4 @@ color14 = #32e0fb
 
 # white
 color7  = #bab7b6
-color15 = #d7d7d7
+color15 = #d3d8d9
