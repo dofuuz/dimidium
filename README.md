@@ -59,4 +59,4 @@ Explore the science behind Dimidium.
 
 [Color appearance model - Wikipedia](https://en.wikipedia.org/wiki/Color_appearance_model)
 
-[Cooking Terminal color scheme with 'science'](https://c.innori.com/155) (Korean)
+[Dimidium: Terminal color scheme crafted with science](https://dofuuz.github.io/color/2024/03/17/dimidium-terminal-color-scheme.html) ([한국어](https://c.innori.com/155))

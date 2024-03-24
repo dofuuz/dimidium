@@ -38,4 +38,4 @@ Bright Yellow  | 252, 205, 26  | #FCCD1A
 Bright Blue    | 104, 141, 253 | #688DFD
 Bright Magenta | 237, 111, 233 | #ED6FE9
 Bright Cyan    | 50, 224, 251  | #32E0FB
-Bright White   | 218, 214, 213 | #DAD6D5
+Bright White   | 211, 216, 217 | #D3D8D9
