@@ -1,12 +1,45 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
+<!--
+"Dimidium" color scheme for terminals
+https://github.com/dofuuz/dimidium
+
+SPDX-FileCopyrightText: (c) 2024 Myungchul Keum
+SPDX-License-Identifier: Zlib
+-->
 <!-- This file was created with the aha Ansi HTML Adapter. https://github.com/theZiz/aha -->
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="application/xml+xhtml; charset=UTF-8" />
-<title>stdin</title>
+<meta charset="UTF-8">
+<title>Dimidium terminal color scheme preview</title>
 </head>
 <body style="color:#bab7b6; background-color:#141414">
+
+<form id="fontForm" onsubmit="applyFontAndSize(); return false;">
+  <label for="fontInput">Font:</label>
+  <input type="text" id="fontInput" value="monospace">&nbsp;
+  <label for="fontSizeInput">Size (pt):</label>
+  <input type="number" id="fontSizeInput" min="0" value="11">&nbsp;
+  <button onclick="applyFontAndSize()">Apply</button>
+  <button onclick="resetFontAndSize()">Reset</button>
+</form>
+
+<script>
+function applyFontAndSize() {
+  var contentDiv = document.querySelector("pre");
+  contentDiv.style.fontFamily = document.getElementById("fontInput").value;
+  contentDiv.style.fontSize = document.getElementById("fontSizeInput").value + "pt";
+}
+
+function resetFontAndSize() {
+  document.getElementById("fontForm").reset();
+  applyFontAndSize();
+}
+
+window.onload = function() {
+  applyFontAndSize();
+};
+</script>
+
 <pre style="font-size: 11pt">
 Dimidium Terminal color scheme Preview
 

@@ -134,6 +134,14 @@ def get_colors_from_tsv(ref_color):
 
 
 def generate_colors(ref_color=9, plot=False):
+    # 0: Background
+    # 1: Black
+    # 2-7: R, G, Y, B, M, C
+    # 8: White, Foreground
+    # 9: Bright black
+    # 10-15: Bright R, G, Y, B, M, C
+    # 16: Bright white, Bold foreground
+
     color = get_colors_from_tsv(ref_color)
     color[0,:] = 20  # background
 
@@ -176,7 +184,6 @@ def generate_colors(ref_color=9, plot=False):
         plot_hue(color_jch)
         plot_colors(color_jch)
 
-
     # Normalize chroma
     c = color_jch[..., 1]
     c_min = np.min(c[2:8])
@@ -208,7 +215,6 @@ def generate_colors(ref_color=9, plot=False):
         plot_hue(color_jch)
         plot_colors(color_jch)
 
-    if plot:
         print(color_rgb)
         print((color_rgb*255).round().astype('int'))
     rgbs = (color_rgb*255).round().clip(0, 255).astype('uint8')
