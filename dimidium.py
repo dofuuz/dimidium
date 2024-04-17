@@ -52,7 +52,7 @@ def plot_lightness(jchs):
     ax.invert_yaxis()
     ax.get_yaxis().set_visible(False)
 
-    for jch in jchs[2:9]:  # plot colors
+    for jch in jchs[1:9]:  # plot colors
         jch[1] *= 0.93  # desaturate plot
         jab = colour.models.JCh_to_Jab(jch)
         xyz = colour.CAM16UCS_to_XYZ(jab)
@@ -60,7 +60,7 @@ def plot_lightness(jchs):
 
         ax.plot(jch[0], 0.25*PLOT_HEIGHT, marker="s", markersize=8, markeredgecolor='black', markerfacecolor=rgb)
 
-    for jch in jchs[10:17]:  # plot bright colors
+    for jch in jchs[9:17]:  # plot bright colors
         jch[1] *= 0.93  # desaturate plot
         jab = colour.models.JCh_to_Jab(jch)
         xyz = colour.CAM16UCS_to_XYZ(jab)
@@ -96,7 +96,7 @@ def plot_hue(jchs):
     ax.axis('off')
     ax.axis('equal')
 
-    for jch in jchs[np.r_[2:9, 10:17]]:
+    for jch in jchs[1:17]:
         jab = colour.models.JCh_to_Jab(jch)
         xyz = colour.CAM16UCS_to_XYZ(jab)
         rgb = colour.XYZ_to_sRGB(xyz).clip(0, 1)
@@ -164,7 +164,6 @@ def generate_colors(ref_color=9, plot=False):
     
     j_mean = np.mean(j[10:16])
     j[10:17] = (j[10:17] + j_mean) / 2  # bright colors
-    j[9] = (j[0] + j_mean) / 2  # bright black
 
     if plot:
         plot_lightness(color_jch)
