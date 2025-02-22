@@ -122,13 +122,13 @@ for key, rgb in mintty.items():
 aha_to_ansi = [['bg', 'BackgroundColour'], ['black', 'Black'], ['dimgray', 'Black'], ['red', 'Red'], ['lime', 'Green'], ['#55FF55', 'BoldGreen'], ['yellow', 'Yellow'], ['#3333FF', 'Blue'], ['fuchsia', 'Magenta'], ['aqua', 'Cyan'], ['white', 'White']]
 
 d = OrderedDict()
-d['"color:white; background-color:black"'] = '"color:#{}; background-color:#{}"'.format(h['ForegroundColour'], h['BackgroundColour'])
-d['"color:black; background-color:white"'] = '"color:#{}; background-color:#{}"'.format(h['BackgroundColour'], h['ForegroundColour'])
+d[' color:white; background-color:black; '] = ' color:#{}; background-color:#{}; '.format(h['ForegroundColour'], h['BackgroundColour'])
+d[' color:black; background-color:white; '] = ' color:#{}; background-color:#{}; '.format(h['BackgroundColour'], h['ForegroundColour'])
+d[' color:dimgray; background-color:white; '] = ' color:#{}; background-color:#{}; '.format(h['Black'], h['ForegroundColour'])
 d.update({f'background-color:{k};': f'background-color:#{h[v]};' for k, v in aha_to_ansi})
-d.update({f'font-weight:bold;color:{k};': f'font-weight:bold;color:#{h["Bold"+v]};' for k, v in aha_to_ansi})
+d.update({f'font-weight:bold; color:{k};': f'color:#{h["Bold"+v]};' for k, v in aha_to_ansi})
 d.update({f'color:{k};': f'color:#{h[v]};' for k, v in aha_to_ansi})
-d['"font-weight:bold;"'] = '"font-weight:bold;color:#{};"'.format(h['BoldWhite'])
-d['"font-weight:bold;background-color:'] = '"font-weight:bold;color:#{};background-color:'.format(h['BoldWhite'])
+d[' font-weight:bold; '] = ' font-weight:bold; color:#{}; '.format(h['BoldWhite'])
 d.update({f' xb.{k} ': f' #{h["Bold"+v]} ' for k, v in aha_to_ansi})
 d.update({f' x.{k} ': f' #{h[v]} ' for k, v in aha_to_ansi})
 d.update({f' rgb.b.{k} ': f' {m["Bold"+v]:13s} ' for k, v in aha_to_ansi})
