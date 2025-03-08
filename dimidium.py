@@ -33,6 +33,27 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+REF_COLOR = [
+    [  0,   0,   0],
+    [  0,   0,   0],
+    [205,   0,   0],
+    [  0, 205,   0],
+    [205, 205,   0],
+    [ 74,  74, 205],  # was [  0,   0, 238]
+    [205,   0, 205],
+    [  0, 205, 205],
+    [205, 205, 205],  # was [229, 229, 229]
+    [127, 127, 127],
+    [255,   0,   0],
+    [  0, 255,   0],
+    [255, 255,   0],
+    [ 92,  92, 255],
+    [255,   0, 255],
+    [  0, 255, 255],
+    [255, 255, 255]
+]  # from xterm
+
+
 def plot_lightness(jchs):
     PLOT_HEIGHT = 8
 
@@ -133,7 +154,7 @@ def get_colors_from_tsv(ref_color):
     return color
 
 
-def generate_colors(ref_color=9, plot=False):
+def generate_colors(ref_color=REF_COLOR, plot=False):
     # 0: Background
     # 1: Black
     # 2-7: R, G, Y, B, M, C
@@ -142,7 +163,11 @@ def generate_colors(ref_color=9, plot=False):
     # 10-15: Bright R, G, Y, B, M, C
     # 16: Bright white, Bold foreground
 
-    color = get_colors_from_tsv(ref_color)
+    if isinstance(ref_color, int):
+        color = get_colors_from_tsv(ref_color)
+    else:
+        color = np.asarray(ref_color)
+
     color[0,:] = 20  # background
 
     # Convert to CAM16-UCS-JCh
@@ -156,8 +181,6 @@ def generate_colors(ref_color=9, plot=False):
     
     # Normalize lightness
     j = color_jch[..., 0]
-    j[5] = (j[2] + j[5]) / 2  # adjust blue
-    # j[13] = (j[10] + j[13]) / 2  # adjust bright blue
     
     j_mean = np.mean(j[2:8])
     j[2:9] = (j[2:9] + j_mean) / 2  # colors
@@ -230,5 +253,5 @@ def generate_colors(ref_color=9, plot=False):
 if __name__ == '__main__':
     plt.rcParams['figure.autolayout'] = True
 
-    rgbs = generate_colors(plot=True)
+    rgbs = generate_colors(ref_color=REF_COLOR, plot=True)
     print(rgbs)

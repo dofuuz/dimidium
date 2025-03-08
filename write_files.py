@@ -18,7 +18,7 @@ import numpy as np
 from dimidium import generate_colors, get_colors_from_tsv
 
 
-rgbs = generate_colors(9)
+rgbs = generate_colors()
 # rgbs = get_colors_from_tsv(9).astype(np.uint8)
 
 
@@ -117,7 +117,7 @@ h = OrderedDict()
 for key, rgb in mintty.items():
     r, g, b = rgb
     h[key] = f'{r:02x}{g:02x}{b:02x}'
-    m[key] = f'{r}, {g}, {b}'
+    m[key] = f'{r:3d}, {g:3d}, {b:3d}'
 
 aha_to_ansi = [['bg', 'BackgroundColour'], ['black', 'Black'], ['dimgray', 'Black'], ['red', 'Red'], ['lime', 'Green'], ['#55FF55', 'BoldGreen'], ['yellow', 'Yellow'], ['#3333FF', 'Blue'], ['fuchsia', 'Magenta'], ['aqua', 'Cyan'], ['white', 'White']]
 
