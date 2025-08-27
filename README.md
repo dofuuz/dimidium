@@ -2,26 +2,26 @@
 
 Dimidium is a standard-looking terminal color scheme, adjusted to have uniform visibility across all colors.
 
-It aims to be a decent default for terminals.
+It aims to be a solid default for terminals.
 
 ![palette](img/palette.png)
 
 ![terminal preview](img/preview-terminal.png)  
-(Font: [Cascaida Code](https://github.com/microsoft/cascadia-code))
+(Font: [Cascadia Code](https://github.com/microsoft/cascadia-code))
 
-🔍 [More preview](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
+🔍 [More previews](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
 
 
 ## 🛠️ Usage
 
 Terminal config download and guides
 
-→ Navigate to [config](config) directory. 
+→ Go to the [config](config) directory.
 
 
 ## Color table
 
-![Dimidium color table](img/color_table.png)  
+![Dimidium color table](img/color_table.svg)  
 [Text version](config/README.md#color-table)
 
 
@@ -37,23 +37,23 @@ Crafted with [CAM16](https://en.wikipedia.org/wiki/Color_appearance_model#CAM16)
 
 ![Lightness before adjust](img/cmp-lightness0.png)  
 ![Lightness after adjust](img/cmp-lightness1.png)  
-(Top: Before adjust / Bottom: Dimidium)
+(Top: Before adjustment / Bottom: Dimidium)
 
-By reducing perceptual lightness difference to half, common issues such as too dark blues and excessively vibrant greens have been resolved.
+By reducing perceptual lightness differences by half, common issues such as too dark blues and excessively vibrant greens have been resolved.
 
 (Note: 'Dimidium' is Latin for 'half'.)
 
 ### Uniform hue difference
 
 ![Hue, chroma adjust](img/cmp-color.png)  
-(Left: Before adjust / Right: Dimidium)
+(Left: Before adjustment / Right: Dimidium)
 
 Hue differences were equalized to maximize color variation.
 
 Introducing hue offsets between normal/bright colors ensures even better distinction.
 
 
-## Further readings
+## Further reading
 
 Explore the science behind Dimidium.
 

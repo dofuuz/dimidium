@@ -96,7 +96,7 @@ def plot_hue(jchs):
     ax.axis('off')
     ax.axis('equal')
 
-    for jch in jchs[1:17]:
+    for jch in reversed(jchs[2:17]):
         jab = colour.models.JCh_to_Jab(jch)
         xyz = colour.CAM16UCS_to_XYZ(jab)
         rgb = colour.XYZ_to_sRGB(xyz).clip(0, 1)
@@ -157,7 +157,7 @@ def generate_colors(ref_color=9, plot=False):
     # Normalize lightness
     j = color_jch[..., 0]
     j[5] = (j[2] + j[5]) / 2  # adjust blue
-    # j[13] = (j[10] + j[13]) / 2  # adjust bright blue
+    j[16] = j[15] + j[8] - j[7]  # adjust bright white
     
     j_mean = np.mean(j[2:8])
     j[2:9] = (j[2:9] + j_mean) / 2  # colors
@@ -213,6 +213,7 @@ def generate_colors(ref_color=9, plot=False):
     if plot:
         plot_hue(color_jch)
         plot_colors(color_jch)
+        plot_lightness(color_jch)
 
         print(color_rgb)
         print((color_rgb*255).round().astype('int'))
