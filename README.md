@@ -6,7 +6,7 @@ It aims to be a solid default for terminals.
 
 ![palette](img/palette.png)
 
-![terminal preview](img/preview-terminal.png)  
+![terminal preview](img/preview-terminal.svg)  
 (Font: [Cascadia Code](https://github.com/microsoft/cascadia-code))
 
 🔍 [More previews](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
