@@ -39,3 +39,13 @@ Bright Blue    | 104, 141, 253 | #688DFD
 Bright Magenta | 237, 111, 233 | #ED6FE9
 Bright Cyan    | 50, 224, 251  | #32E0FB
 Bright White   | 222, 227, 228 | #DEE3E4
+
+### Additional colors
+
+Some more colors for terminals.  
+https://github.com/dofuuz/dimidium/issues/2
+
+Name           | RGB255        | HEX
+---------------|---------------|--------
+Link           | 82, 134, 221  | #5286DD
+Selection BG   | 141, 184, 229 | #8DB8E5
