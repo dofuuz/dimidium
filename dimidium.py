@@ -143,7 +143,7 @@ def generate_colors(ref_color=9, plot=False):
     # 16: Bright white, Bold foreground
 
     color = get_colors_from_tsv(ref_color)
-    color[0,:] = 20  # background
+    color[0,:] = 250  # background
 
     # Convert to CAM16-UCS-JCh
     xyz = colour.sRGB_to_XYZ(color/255)
@@ -157,13 +157,13 @@ def generate_colors(ref_color=9, plot=False):
     # Normalize lightness
     j = color_jch[..., 0]
     j[5] = (j[2] + j[5]) / 2  # adjust blue
-    j[16] = j[15] + j[8] - j[7]  # adjust bright white
+    j[13] = (j[10] + j[13]) / 2  # adjust bright blue
     
     j_mean = np.mean(j[2:8])
-    j[2:9] = (j[2:9] + j_mean) / 2  # colors
+    j[1:9] = (j[1:9] + j_mean) / 2  # colors
     
     j_mean = np.mean(j[10:16])
-    j[10:17] = (j[10:17] + j_mean) / 2  # bright colors
+    j[9:17] = (j[9:17] + j_mean) / 2  # bright colors
 
     if plot:
         plot_lightness(color_jch)
@@ -193,7 +193,7 @@ def generate_colors(ref_color=9, plot=False):
 
     c[0] = 0  # background
     c[8] = 0  # white
-    c[9] = 0  # bright black
+    c[9] *= 2  # bright black
     c[16] *= 2  # bright white (give little color shift between whites)
 
     # clip chroma into sRGB gamut
@@ -231,5 +231,5 @@ def generate_colors(ref_color=9, plot=False):
 if __name__ == '__main__':
     plt.rcParams['figure.autolayout'] = True
 
-    rgbs = generate_colors(plot=True)
+    rgbs = generate_colors(13, plot=True)
     print(rgbs)

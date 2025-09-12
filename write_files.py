@@ -18,7 +18,7 @@ import numpy as np
 from dimidium import generate_colors, get_colors_from_tsv
 
 
-rgbs = generate_colors()
+rgbs = generate_colors(13)
 # rgbs = get_colors_from_tsv(9).astype(np.uint8)
 
 
@@ -65,7 +65,7 @@ with open('config/dimidium-putty.reg', 'wt') as f:
 
 # Write mintty
 mintty = OrderedDict()
-mintty['ForegroundColour'] = rgbs[8]
+mintty['ForegroundColour'] = rgbs[1]
 mintty['BackgroundColour'] = rgbs[0]
 mintty['CursorColour'] = rgbs[11]
 mintty['Black'] = rgbs[1]
@@ -128,7 +128,7 @@ d[' color:dimgray; background-color:white; '] = ' color:#{}; background-color:#{
 d.update({f'background-color:{k};': f'background-color:#{h[v]};' for k, v in aha_to_ansi})
 d.update({f'font-weight:bold; color:{k};': f'color:#{h["Bold"+v]};' for k, v in aha_to_ansi})
 d.update({f'color:{k};': f'color:#{h[v]};' for k, v in aha_to_ansi})
-d[' font-weight:bold; '] = ' font-weight:bold; color:#{}; '.format(h['BoldWhite'])
+d[' font-weight:bold; '] = ' font-weight:bold; color:#{}; '.format(h['BoldBlack'])
 d.update({f' xb.{k} ': f' #{h["Bold"+v]} ' for k, v in aha_to_ansi})
 d.update({f' x.{k} ': f' #{h[v]} ' for k, v in aha_to_ansi})
 d.update({f' rgb.b.{k} ': f' {m["Bold"+v]:13s} ' for k, v in aha_to_ansi})
