@@ -4,10 +4,10 @@
 # SPDX-FileCopyrightText: (c) 2024 Myungchul Keum
 # SPDX-License-Identifier: Zlib
 
-ForegroundColour = 64,62,62
+ForegroundColour = 75,74,74
 BackgroundColour = 254,249,248
 CursorColour = 35,207,107
-Black = 64,62,62
+Black = 75,74,74
 BoldBlack = 120,122,122
 Red = 190,64,67
 BoldRed = 232,87,48

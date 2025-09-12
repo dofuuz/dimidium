@@ -8,9 +8,9 @@
     "schemes": [
         {
             "name": "Dimidium",
-            "selectionBackground": "#FFFFFF",
+            "selectionBackground": "#8DB8E5",
             "background": "#FEF9F8",
-            "black": "#403E3E",
+            "black": "#4B4A4A",
             "red": "#BE4043",
             "green": "#54A438",
             "yellow": "#C88D01",

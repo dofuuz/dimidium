@@ -144,6 +144,7 @@ def generate_colors(ref_color=9, plot=False):
 
     color = get_colors_from_tsv(ref_color)
     color[0,:] = 250  # background
+    color[1,:] = 20
 
     # Convert to CAM16-UCS-JCh
     xyz = colour.sRGB_to_XYZ(color/255)
