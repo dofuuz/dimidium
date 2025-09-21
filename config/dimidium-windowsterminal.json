@@ -10,7 +10,7 @@
             "name": "Dimidium",
             "selectionBackground": "#8DB8E5",
             "background": "#FEF9F8",
-            "black": "#4B4A4A",
+            "black": "#000000",
             "red": "#BE4043",
             "green": "#54A438",
             "yellow": "#C88D01",
@@ -26,7 +26,7 @@
             "brightPurple": "#D761D4",
             "brightCyan": "#19CAE4",
             "brightWhite": "#BEC3C3",
-            "foreground": "#9F9C9C",
+            "foreground": "#4B4A4A",
             "cursorColor": "#23CF6B"
         }
     ]

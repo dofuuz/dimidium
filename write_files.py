@@ -20,7 +20,8 @@ from dimidium import generate_colors, get_colors_from_tsv
 
 rgbs = generate_colors(13)
 # rgbs = get_colors_from_tsv(9).astype(np.uint8)
-
+fg = rgbs[1].copy()
+rgbs[1] = [0, 0, 0]  # Black
 
 names = [
     'Background',
@@ -65,7 +66,7 @@ with open('config/dimidium-putty.reg', 'wt') as f:
 
 # Write mintty
 mintty = OrderedDict()
-mintty['ForegroundColour'] = rgbs[1]
+mintty['ForegroundColour'] = fg
 mintty['BackgroundColour'] = rgbs[0]
 mintty['CursorColour'] = rgbs[11]
 mintty['Black'] = rgbs[1]
@@ -96,12 +97,12 @@ WINTERM_KEYS = [
     'brightBlack', 'brightRed', 'brightGreen', 'brightYellow', 'brightBlue', 'brightPurple', 'brightCyan', 'brightWhite',
 ]
 
-winterm_dict = {'name': 'Dimidium', 'selectionBackground': '#FFFFFF'}
+winterm_dict = {'name': 'Dimidium', 'selectionBackground': '#8DB8E5'}
 for idx, key in enumerate(WINTERM_KEYS):
     r, g, b = rgbs[idx]
     winterm_dict[key] = f'#{r:02X}{g:02X}{b:02X}'
 
-winterm_dict['foreground'] = winterm_dict['white']
+winterm_dict['foreground'] = f'#{fg[0]:02X}{fg[1]:02X}{fg[2]:02X}'
 winterm_dict['cursorColor'] = winterm_dict['brightGreen']
 
 with open('config/dimidium-windowsterminal.json', 'w') as jf:
@@ -111,6 +112,7 @@ with open('config/dimidium-windowsterminal.json', 'w') as jf:
 # Generate preveiw
 mintty['BoldBoldGreen'] = mintty['BoldGreen']
 mintty['BoldBackgroundColour'] = mintty['BackgroundColour']
+mintty['BoldForegroundColour'] = mintty['BoldBlack']
 
 m = {}
 h = OrderedDict()
@@ -119,7 +121,7 @@ for key, rgb in mintty.items():
     h[key] = f'{r:02x}{g:02x}{b:02x}'
     m[key] = f'{r:3d}, {g:3d}, {b:3d}'
 
-aha_to_ansi = [['bg', 'BackgroundColour'], ['black', 'Black'], ['dimgray', 'Black'], ['red', 'Red'], ['lime', 'Green'], ['#55FF55', 'BoldGreen'], ['yellow', 'Yellow'], ['#3333FF', 'Blue'], ['fuchsia', 'Magenta'], ['aqua', 'Cyan'], ['white', 'White']]
+aha_to_ansi = [['bg', 'BackgroundColour'], ['fg', 'ForegroundColour'], ['black', 'Black'], ['dimgray', 'Black'], ['red', 'Red'], ['lime', 'Green'], ['#55FF55', 'BoldGreen'], ['yellow', 'Yellow'], ['#3333FF', 'Blue'], ['fuchsia', 'Magenta'], ['aqua', 'Cyan'], ['white', 'White']]
 
 d = OrderedDict()
 d[' color:white; background-color:black; '] = ' color:#{}; background-color:#{}; '.format(h['ForegroundColour'], h['BackgroundColour'])
