@@ -18,7 +18,7 @@ import numpy as np
 from dimidium import generate_colors, get_colors_from_tsv
 
 
-rgbs = generate_colors(13)
+rgbs = generate_colors(14)
 # rgbs = get_colors_from_tsv(9).astype(np.uint8)
 fg = rgbs[1].copy()
 rgbs[1] = [0, 0, 0]  # Black

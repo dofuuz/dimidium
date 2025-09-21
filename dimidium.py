@@ -232,5 +232,5 @@ def generate_colors(ref_color=9, plot=False):
 if __name__ == '__main__':
     plt.rcParams['figure.autolayout'] = True
 
-    rgbs = generate_colors(13, plot=True)
+    rgbs = generate_colors(14, plot=True)
     print(rgbs)
