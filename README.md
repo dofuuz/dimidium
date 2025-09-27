@@ -4,6 +4,8 @@ Dimidium is a standard-looking terminal color scheme, adjusted to have uniform v
 
 It aims to be a solid default for terminals.
 
+📣 **News:** Dimidium is now built into [Windows Terminal](https://aka.ms/terminal) (since [v1.23.12681.0](https://github.com/microsoft/terminal/discussions/19384)). 🥳
+
 ![palette](img/palette.png)
 
 ![terminal preview](img/preview-terminal.svg)  
@@ -60,3 +62,13 @@ Explore the science behind Dimidium.
 [Color appearance model - Wikipedia](https://en.wikipedia.org/wiki/Color_appearance_model)
 
 [Dimidium: Terminal color scheme crafted with science](https://dofuuz.github.io/color/2024/03/17/dimidium-terminal-color-scheme.html) ([한국어](https://c.innori.com/155))
+
+
+## Related project
+
+### [Roseus colormap family](https://github.com/dofuuz/roseus)
+
+Colormaps for data visualization with full range of lightness.  
+They provide excellent contrast, making data clearer and easier to interpret.
+
+![Roseus colorbars](img/roseus-bars.png)
