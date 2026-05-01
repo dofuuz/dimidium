@@ -11,7 +11,7 @@ It aims to be a solid default for terminals.
 ![terminal preview](img/preview-terminal.svg)  
 (Font: [Cascadia Code](https://github.com/microsoft/cascadia-code))
 
-🔍 [More previews](https://htmlpreview.github.io/?https://github.com/dofuuz/dimidium/blob/main/preview/tty-preview-nobold.html)
+🔍 [More previews](https://dofuuz.github.io/pages/tty-preview-nobold.html)
 
 
 ## 🛠️ Usage
