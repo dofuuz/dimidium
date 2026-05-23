@@ -16,9 +16,13 @@ It aims to be a solid default for terminals.
 
 ## 🛠️ Usage
 
-Terminal config download and guides
+### Terminal config download and guides
 
 → Go to the [config](config) directory.
+
+### Community Ports
+
+* [dimidium-btop](https://codeberg.org/Raiden1/dimidium-btop) - Dimidium color scheme for [btop](https://github.com/aristocratos/btop) system monitor.
 
 
 ## Color table
