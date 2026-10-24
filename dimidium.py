@@ -134,7 +134,7 @@ def get_colors_from_tsv(ref_color):
     return color
 
 
-def generate_colors(ref_color=9, plot=False):
+def generate_colors(ref_color=13, plot=False):
     # 0: Background
     # 1: Black
     # 2-7: R, G, Y, B, M, C
