@@ -96,7 +96,7 @@ WINTERM_KEYS = [
     'brightBlack', 'brightRed', 'brightGreen', 'brightYellow', 'brightBlue', 'brightPurple', 'brightCyan', 'brightWhite',
 ]
 
-winterm_dict = {'name': 'Dimidium', 'selectionBackground': '#FFFFFF'}
+winterm_dict = {'name': 'Dimidium', 'selectionBackground': '#8DB8E5'}
 for idx, key in enumerate(WINTERM_KEYS):
     r, g, b = rgbs[idx]
     winterm_dict[key] = f'#{r:02X}{g:02X}{b:02X}'

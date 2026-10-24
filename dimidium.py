@@ -125,10 +125,11 @@ def get_colors_from_tsv(ref_color):
     
     # TTY colors
     Colour = colors[ref_color]
-    color = [(0, 0, 0)]  # Background
+    color = [(0, 0, 0)]
     for c in Colour[1:]:
         color.append([int(x) for x in c.split(', ')])
     color = np.asarray(color, dtype=np.float32)
+    color[0] = color[1]  # BG = Black
 
     return color
 
@@ -143,7 +144,14 @@ def generate_colors(ref_color=9, plot=False):
     # 16: Bright white, Bold foreground
 
     color = get_colors_from_tsv(ref_color)
-    color[0,:] = 20  # background
+
+    is_light = np.mean(color[0]) > 100
+
+    # Set background
+    if is_light:
+        color[0,:] = 250
+    else:
+        color[0,:] = 20
 
     # Convert to CAM16-UCS-JCh
     xyz = colour.sRGB_to_XYZ(color/255)
@@ -156,9 +164,12 @@ def generate_colors(ref_color=9, plot=False):
     
     # Normalize lightness
     j = color_jch[..., 0]
-    j[5] = (j[2] + j[5]) / 2  # adjust blue
-    j[16] = j[15] + j[8] - j[7]  # adjust bright white
-    
+    j[5] = (j[2] + j[5]) / 2  # blue
+    if is_light:
+        j[13] = (j[10] + j[13]) / 2  # bright blue
+    else:
+        j[16] = j[15] + j[8] - j[7]  # bright white
+
     j_mean = np.mean(j[2:8])
     j[2:9] = (j[2:9] + j_mean) / 2  # colors
     
